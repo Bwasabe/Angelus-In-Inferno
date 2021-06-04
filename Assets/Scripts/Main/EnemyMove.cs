@@ -49,7 +49,7 @@ public class EnemyMove : MonoBehaviour
 
         if(collision.CompareTag("Bullet")){
 
-            Destroy(collision.gameObject);
+            collision.GetComponent<BulletMove>().Despawn();
 
             if(hp > 1){
                 if(isDamaged)return;
@@ -63,6 +63,7 @@ public class EnemyMove : MonoBehaviour
             StartCoroutine(Dead());
         }
     }
+    
     private IEnumerator Damaged(){
         hp--;   
         spriteRenderer.material.SetColor("_Color",new Color(1f,0f,0f,0.5f));

@@ -420,6 +420,7 @@ MonoBehaviour:
   bulletPosition: {fileID: 377627959}
   bulletDelay: 0.3
   bulletScale: {x: 1, y: 1}
+  playerRingSprite: {fileID: 21300000, guid: 172859e29d27d7d45897fd32d499874f, type: 3}
   speed: 10
 --- !u!1 &519420028
 GameObject:
@@ -681,6 +682,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1204666092}
+  - component: {fileID: 1204666093}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -696,12 +698,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1204666091}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8988716, y: 0.23396042, z: -6.2886777}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1204666093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204666091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f04e72ee1bbef43884314355a23b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1649502824
 GameObject:
   m_ObjectHideFlags: 0

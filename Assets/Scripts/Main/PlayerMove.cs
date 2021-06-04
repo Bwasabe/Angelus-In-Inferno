@@ -12,6 +12,8 @@ public class PlayerMove : MonoBehaviour
     private float bulletDelay = 0.3f;
     [SerializeField]
     private Vector2 bulletScale = Vector2.one;
+    [SerializeField]
+    private Sprite playerRingSprite = null;
 
 
     [Header("플레이어")]
@@ -22,11 +24,14 @@ public class PlayerMove : MonoBehaviour
     private GameManager gameManager = null;
     private SpriteRenderer spriteRenderer = null;
     private Animator animator = null;
-     void Start()
+    private GameObject bullet = null;
+    private bool isRing = false;
+    void Start()
     {
         if(!gameManager)gameManager = FindObjectOfType<GameManager>();
         if(!spriteRenderer)spriteRenderer = GetComponent<SpriteRenderer>();
         if(!animator)animator = GetComponent<Animator>();
+        isRing = true;
         StartCoroutine(AFire());
 
     }
@@ -46,11 +51,30 @@ public class PlayerMove : MonoBehaviour
         }
     }
     private IEnumerator AFire(){
-        GameObject bullet;
         while(true){
-            bullet = Instantiate(bulletPrefab,bulletPosition);
-            bullet.transform.SetParent(null);
+            SpawnOrInstantiate();
             yield return new WaitForSeconds(bulletDelay);
         }
+    }
+    private void SpawnOrInstantiate(){
+        if(gameManager.PoolManager.transform.childCount > 0){
+            bullet = gameManager.PoolManager.transform.GetChild(0).gameObject;
+            bullet.layer = LayerMask.NameToLayer("Player");
+            JudgeBullet();
+            bullet.SetActive(true);
+            bullet.transform.rotation = Quaternion.identity;
+            bullet.transform.SetParent(bulletPosition,false);
+            bullet.transform.position = bulletPosition.position;
+        }
+        else{
+            bullet = Instantiate(bulletPrefab,bulletPosition);
+        }
+        if(bullet != null){
+            bullet.transform.SetParent(null);
+        }
+    }
+    private void JudgeBullet(){
+        if(isRing == true)
+        bullet.GetComponent<SpriteRenderer>().sprite = playerRingSprite;
     }
 }

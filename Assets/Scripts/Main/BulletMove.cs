@@ -18,7 +18,12 @@ public class BulletMove : MonoBehaviour
     }
     private void Limit(){
         if(transform.localPosition.y > gameManager.MaxPositon.y+0.5f){
-            Destroy(gameObject);
+            Despawn();
         }
+    }
+    public void Despawn(){
+        transform.localScale = new Vector2(1,1);
+        transform.SetParent(gameManager.PoolManager.transform,false);
+        gameObject.SetActive(false);
     }
 }
