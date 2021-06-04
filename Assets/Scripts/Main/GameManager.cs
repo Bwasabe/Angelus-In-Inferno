@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public Vector2 MinPosition { get; private set; }
     public Vector2 MaxPositon { get; private set; }
 
-[Header("텍스트")]
+ [Header("텍스트")]
     [SerializeField]
     private Text textScore = null;
     [SerializeField]
