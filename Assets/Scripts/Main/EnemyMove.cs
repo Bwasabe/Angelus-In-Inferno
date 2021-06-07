@@ -65,6 +65,7 @@ public class EnemyMove : MonoBehaviour
     }
     
     private IEnumerator Damaged(){
+        
         hp--;   
         spriteRenderer.material.SetColor("_Color",new Color(1f,0f,0f,0.5f));
         yield return new WaitForSeconds(0.1f);

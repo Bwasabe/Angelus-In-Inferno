@@ -26,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     private Animator animator = null;
     private GameObject bullet = null;
     private bool isRing = false;
+    private bool isDamaged = false;
     void Start()
     {
         if(!gameManager)gameManager = FindObjectOfType<GameManager>();
@@ -76,5 +77,20 @@ public class PlayerMove : MonoBehaviour
     private void JudgeBullet(){
         if(isRing == true)
         bullet.GetComponent<SpriteRenderer>().sprite = playerRingSprite;
+    }
+    private void OnTriggerEnter2D(Collider2D collision){
+        if(isDamaged)return;
+        isDamaged = true;
+        StartCoroutine(Damaged());
+    }
+    private IEnumerator Damaged(){
+        gameManager.Dead();
+        for(int i = 0 ; i<5 ; i++){
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
+        isDamaged = false;
     }
 }

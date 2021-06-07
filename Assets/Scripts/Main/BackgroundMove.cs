@@ -10,6 +10,7 @@ public class BackgroundMove : MonoBehaviour
     private Vector2 offset = Vector2.zero;
     void Start()
     {
+        offset.y = PlayerPrefs.GetFloat("OffsetY" , 0);
         if(meshRenderer == null)meshRenderer = GetComponent<MeshRenderer>();
     }
 

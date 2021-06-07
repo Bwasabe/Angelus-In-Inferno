@@ -7,6 +7,7 @@ public class GameOverManager : MonoBehaviour
 {
     [SerializeField]
     private Text textBest = null;
+    
 
     void Start()
     {
