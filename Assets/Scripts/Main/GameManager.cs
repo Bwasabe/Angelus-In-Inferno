@@ -23,12 +23,12 @@ public class GameManager : MonoBehaviour
     private int life = 3;
     private long score = 0;
     private long highScore = 0;
-    public PoolManager PoolManager {get ; private set;}
+    public PoolManager PoolManager { get; private set; }
 
     void Awake()
     {
-        if(!PoolManager)PoolManager = FindObjectOfType<PoolManager>();
-        highScore = PlayerPrefs.GetInt("BEST",0);
+        if (!PoolManager) PoolManager = FindObjectOfType<PoolManager>();
+        highScore = PlayerPrefs.GetInt("BEST", 0);
         UpdateUI();
         MinPosition = new Vector2(-2.5f, -4.45f);
         MaxPositon = new Vector2(2.5f, 4.45f);
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         if (score > highScore)
         {
             highScore = score;
-            PlayerPrefs.SetInt("BEST",(int)highScore);
+            PlayerPrefs.SetInt("BEST", (int)highScore);
         }
         UpdateUI();
     }
@@ -51,22 +51,26 @@ public class GameManager : MonoBehaviour
         textScore.text = string.Format("Score {0}", score);
         textLife.text = string.Format("Life {0}", life);
     }
-     private IEnumerator SpawningFire(){
+    private IEnumerator SpawningFire()
+    {
         float randomX = 0f;
         float spawningDelay = 0f;
-        while (true){
-            randomX = Random.Range(-2.5f,2.5f);
-            spawningDelay = Random.Range(1f,2f);
-            for(int i = 0 ; i< 3 ; i++){
-                Instantiate(firePrefab,new Vector2(randomX,6f),Quaternion.identity);
-                yield return new WaitForSeconds(spawningDelay);
-            }
+        while (true)
+        {
+            randomX = Random.Range(-2.5f, 2.5f);
+            spawningDelay = Random.Range(1f, 1.5f);
+            //for(int i = 0 ; i< 1 ; i++){
+            Instantiate(firePrefab, new Vector2(randomX, 6f), Quaternion.identity);
+            yield return new WaitForSeconds(spawningDelay);
+            //}
             yield return new WaitForSeconds(1f);
         }
     }
-    public void Dead(){
-        life --;
-        if(life <=0){
+    public void Dead()
+    {
+        life--;
+        if (life <= 0)
+        {
             SceneManager.LoadScene("GameOver");
         }
         UpdateUI();

@@ -34,10 +34,9 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-        Limit();
+        ReSpawn();
         if (transform.localPosition.y <= 3f&&!isRush)
         {
-            Debug.Log("우와앙 멈춰!");
             isRush = true;
             StartCoroutine(Rush());
         }
@@ -50,7 +49,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (transform.localPosition.y < gameManager.MinPosition.y - 1f)
         {
-            Destroy(gameObject);
+            
         }
     }
 
@@ -98,22 +97,26 @@ public class EnemyMove : MonoBehaviour
     private IEnumerator Rush()
     {
         speed=0f;
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 10; i++)
         {
             spriteRenderer.material.SetColor("_Color", new Color(1f, 0f, 0f, 0.7f));        
             yield return new WaitForSeconds(0.05f);
             spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
             yield return new WaitForSeconds(0.05f);
         }
-        spriteRenderer.material.SetColor("_Color", new Color(1f, 0f, 0f, 1f));        
+        spriteRenderer.material.SetColor("_Color", new Color(1f, 0f, 0f, 1f));  
         yield return new WaitForSeconds(0.3f);
         speed = 30f;
-        
-        
-           
-        
 
     }
-
+    private void ReSpawn(){
+        if (transform.localPosition.y < gameManager.MinPosition.y)
+        {
+            isRush = false;
+            spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
+            speed = 5f;
+            transform.localPosition = new Vector2(transform.localPosition.x,gameManager.MaxPositon.y+2f);
+        }
+    }
 
 }
