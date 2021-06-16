@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class EnemyMove : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class EnemyMove : MonoBehaviour
     private int hp = 0;
     [SerializeField]
     private float speed = 7f;
+    [SerializeField]
+    private Slider enemyHpBar = null;
 
     private GameManager gameManager = null;
     private SkillBox skillBox = null;
@@ -79,7 +83,7 @@ public class EnemyMove : MonoBehaviour
 
     private IEnumerator Damaged()
     {
-
+        enemyHpBar.value -= 0.1f;
         hp--;
         spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.5f));
         yield return new WaitForSeconds(0.1f);

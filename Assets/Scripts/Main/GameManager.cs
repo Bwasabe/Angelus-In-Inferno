@@ -34,8 +34,9 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer spriteRenderer = null;
     private EnemyMove enemyMove = null;
     private bool isEnemyFire = false;
-    private float score = 0;
-    private float highScore = 0;
+    private float score = 0f;
+    private float highScore = 0f;
+    private float timeScore=0f;
     
 
     List<int> randomrange = new List<int> {1,2,3,4,5,6};
@@ -56,7 +57,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawningFire());
     }
     void Update(){
-        score += 10*Time.deltaTime;
+        timeScore = 10*Time.deltaTime;
+        score += timeScore;
+        AddScore((long)timeScore);
         UpdateUI();
     }
     private void SetVariable(){
@@ -75,13 +78,14 @@ public class GameManager : MonoBehaviour
     }
     private void UpdateUI()
     {
-        textHighScore.text = string.Format("Best {0}", highScore);
-        textScore.text = string.Format("Score {0}", (int)score);
+        textHighScore.text = string.Format("Best {0 : 0}", highScore);
+        textScore.text = string.Format("Score {0 : 0}", score);
         textLife.text = string.Format("Life {0}", life);
     }
     private IEnumerator SpawningFire()
     {
         float spawningDelay = 0f;
+        float enemyX = 0;
         
         while (true)
         {
@@ -92,7 +96,6 @@ public class GameManager : MonoBehaviour
             int randoma = Random.Range(0,randomrange.Count);
             int num = randomrange[randoma];
             randomrange.RemoveAt(randoma);
-            float enemyX = 0;
             // random = Random.Range(1,7);
             switch(num){
 

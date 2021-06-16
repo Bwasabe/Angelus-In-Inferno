@@ -212,7 +212,7 @@ MonoBehaviour:
   textScore: {fileID: 1819722708}
   textHighScore: {fileID: 358682405}
   textLife: {fileID: 1649502826}
-  enemyFirePrefab: {fileID: 1809996441663896235, guid: 6b6b4aef3b2bd7146979ccc1bc757e7e, type: 3}
+  enemyFirePrefab: {fileID: 9013966440969126283, guid: 631d4d082737b8d4d956709dcf76fdf9, type: 3}
   enemyFireSprite: {fileID: 21300000, guid: bfbbab996759330498c10f425845567d, type: 3}
   life: 1000
 --- !u!1 &358682403
