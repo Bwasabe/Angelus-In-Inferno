@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer spriteRenderer = null;
     private EnemyMove enemyMove = null;
     private bool isEnemyFire = false;
+    private bool isExit = false;
     private float score = 0f;
     private float highScore = 0f;
     private float timeScore=0f;

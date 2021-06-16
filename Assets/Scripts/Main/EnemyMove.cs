@@ -21,7 +21,6 @@ public class EnemyMove : MonoBehaviour
     private bool isRush = false;
     private bool isDead = false;
     private bool isDamaged = false;
-    private bool isOverlap = false;
     public  int random = 0;
     
     private int enemyIdx;
@@ -40,15 +39,20 @@ public class EnemyMove : MonoBehaviour
         score = 100;
         speed = 3f;
     }
+    private void SetHpBar(){
+        enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,-0.6f,0));
+    }
 
     void Update()
     {
+        SetHpBar();
         if (isDead) return;
         ReSpawn();
         if (transform.localPosition.y <= 3f && !isRush)
         {
             isRush = true;
             StartCoroutine(Rush());
+
         }
 
 
@@ -130,6 +134,7 @@ public class EnemyMove : MonoBehaviour
         isDamaged = false;
         skillBox.gameObject.SetActive(false);
         SetVariable();
+        enemyHpBar.value = 1f;
         col.enabled = true;
         transform.SetParent(gameManager.PoolManager.enemyPool.transform, false);
         gameObject.SetActive(false);
