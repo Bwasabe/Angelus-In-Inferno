@@ -11,7 +11,7 @@ public class GameOverManager : MonoBehaviour
 
     void Start()
     {
-        textBest.text = string.Format("최고기록\n {0}",PlayerPrefs.GetInt("BEST",0));
+        textBest.text = string.Format("BEST\n{0}",PlayerPrefs.GetInt("BEST",0));
     }
 
     public void OnClickRetry(){

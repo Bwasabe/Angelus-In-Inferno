@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,9 @@ public class GameManager : MonoBehaviour
 {
     public Vector2 MinPosition { get; private set; }
     public Vector2 MaxPositon { get; private set; }
+    public PoolManager PoolManager { get; private set; }
+
+
 
     [Header("텍스트")]
     [SerializeField]
@@ -18,21 +22,45 @@ public class GameManager : MonoBehaviour
     private Text textLife = null;
     [Header("몬스터")]
     [SerializeField]
-    private GameObject firePrefab = null;
+    private GameObject enemyFirePrefab = null;
+    [SerializeField]
+    private Sprite enemyFireSprite = null;
 
+    [SerializeField]
     private int life = 3;
-    private long score = 0;
-    private long highScore = 0;
-    public PoolManager PoolManager { get; private set; }
 
-    void Awake()
+
+    private GameObject enemy = null;
+    private SpriteRenderer spriteRenderer = null;
+    private EnemyMove enemyMove = null;
+    private bool isEnemyFire = false;
+    private float score = 0;
+    private float highScore = 0;
+    
+
+    List<int> randomrange = new List<int> {1,2,3,4,5,6};
+    
+
+    void Start()
     {
         if (!PoolManager) PoolManager = FindObjectOfType<PoolManager>();
+        if(!spriteRenderer)spriteRenderer = GetComponent<SpriteRenderer>();
+        if(!enemyMove)enemyMove = FindObjectOfType<EnemyMove>();
+        
         highScore = PlayerPrefs.GetInt("BEST", 0);
+        SetVariable();
         UpdateUI();
-        MinPosition = new Vector2(-2.5f, -4.45f);
-        MaxPositon = new Vector2(2.5f, 4.45f);
+        MinPosition = new Vector2(-2.35f, -4.393f);
+        MaxPositon = new Vector2(2.35f, 4.35f);
+        isEnemyFire = true;
         StartCoroutine(SpawningFire());
+    }
+    void Update(){
+        score += 10*Time.deltaTime;
+        UpdateUI();
+    }
+    private void SetVariable(){
+        life = 1000;   
     }
 
     public void AddScore(long addScore)
@@ -48,22 +76,66 @@ public class GameManager : MonoBehaviour
     private void UpdateUI()
     {
         textHighScore.text = string.Format("Best {0}", highScore);
-        textScore.text = string.Format("Score {0}", score);
+        textScore.text = string.Format("Score {0}", (int)score);
         textLife.text = string.Format("Life {0}", life);
     }
     private IEnumerator SpawningFire()
     {
-        float randomX = 0f;
         float spawningDelay = 0f;
+        
         while (true)
         {
-            randomX = Random.Range(-2.5f, 2.5f);
-            spawningDelay = Random.Range(1f, 1.5f);
-            //for(int i = 0 ; i< 1 ; i++){
-            Instantiate(firePrefab, new Vector2(randomX, 6f), Quaternion.identity);
+            if(randomrange.Count <= 0){
+                yield return new WaitForSeconds(spawningDelay);
+                continue;
+            }
+            int randoma = Random.Range(0,randomrange.Count);
+            int num = randomrange[randoma];
+            randomrange.RemoveAt(randoma);
+            float enemyX = 0;
+            // random = Random.Range(1,7);
+            switch(num){
+
+                case 1: enemyX = -2.3015f; break;
+                case 2: enemyX = -1.3805f; break;
+                case 3: enemyX = -0.4595f; break;
+                case 4: enemyX = 0.4615f; break;
+                case 5: enemyX = 1.3825f; break;
+                case 6: enemyX = 2.3035f; break;
+
+            }                        
+            spawningDelay = Random.Range(4f, 5f);
+            
+            EnemySpawnOrInstantiate(enemyX, num);
             yield return new WaitForSeconds(spawningDelay);
-            //}
-            yield return new WaitForSeconds(1f);
+        }
+    }
+    private void EnemySpawnOrInstantiate(float enemyX, int idx){
+        
+        if(PoolManager.enemyPool.transform.childCount > 0){
+            enemy = PoolManager.enemyPool.transform.GetChild(0).gameObject;
+            enemy.layer = LayerMask.NameToLayer("Enemy");
+            JudgeEnemy();
+            enemy.SetActive(true);
+            enemy.transform.rotation = Quaternion.identity;
+            enemy.transform.position = new Vector2(enemyX,6f);
+        }
+        else{
+            enemy = Instantiate(enemyFirePrefab,new Vector2(enemyX,6f),Quaternion.identity);
+        }
+        if(enemy != null){
+            enemy.transform.SetParent(null);
+            EnemyMove move = enemy.GetComponent<EnemyMove>();
+            move.SetData(idx);
+        }
+    }
+    public void SetEnemyPositionDead(int idx)
+    {
+        randomrange.Add(idx);
+    }
+    private void JudgeEnemy(){
+        if(isEnemyFire == true){
+            enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
         }
     }
     public void Dead()

@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
         if(!gameManager)gameManager = FindObjectOfType<GameManager>();
         if(!spriteRenderer)spriteRenderer = GetComponent<SpriteRenderer>();
         if(!animator)animator = GetComponent<Animator>();
+
         isRing = true;
         StartCoroutine(AFire());
 
@@ -58,8 +59,8 @@ public class PlayerMove : MonoBehaviour
         }
     }
     private void SpawnOrInstantiate(){
-        if(gameManager.PoolManager.transform.childCount > 0){
-            bullet = gameManager.PoolManager.transform.GetChild(0).gameObject;
+        if(gameManager.PoolManager.bulletPool.transform.childCount > 0){
+            bullet = gameManager.PoolManager.bulletPool.transform.GetChild(0).gameObject;
             bullet.layer = LayerMask.NameToLayer("Player");
             JudgeBullet();
             bullet.SetActive(true);
@@ -75,8 +76,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
     private void JudgeBullet(){
-        if(isRing == true)
+        if(isRing == true){
         bullet.GetComponent<SpriteRenderer>().sprite = playerRingSprite;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision){
         if(isDamaged)return;

@@ -23,7 +23,7 @@ public class BulletMove : MonoBehaviour
     }
     public void Despawn(){
         transform.localScale = new Vector2(1,1);
-        transform.SetParent(gameManager.PoolManager.transform,false);
+        transform.SetParent(gameManager.PoolManager.bulletPool.transform,false);
         gameObject.SetActive(false);
     }
 }
