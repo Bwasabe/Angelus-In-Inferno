@@ -78,6 +78,7 @@ public class PlayerMove : MonoBehaviour
     private void JudgeBullet(){
         if(isRing == true){
         bullet.GetComponent<SpriteRenderer>().sprite = playerRingSprite;
+        bullet.transform.localScale = new Vector2(1,1);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision){

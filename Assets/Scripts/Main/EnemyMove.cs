@@ -10,11 +10,11 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private int hp = 0;
     [SerializeField]
-    private float speed = 7f;
+    protected float speed = 7f;
     [SerializeField]
     private Slider enemyHpBar = null;
 
-    private GameManager gameManager = null;
+    protected GameManager gameManager = null;
     private SkillBox skillBox = null;
     private Collider2D col = null;
     protected SpriteRenderer spriteRenderer = null;
@@ -55,9 +55,11 @@ public class EnemyMove : MonoBehaviour
 
         }
 
+        transform.Translate(Vector2.down*speed*Time.deltaTime);
 
+    }
+    protected  virtual void Move(){
         transform.Translate(Vector2.down * speed * Time.deltaTime);
-
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -87,7 +89,7 @@ public class EnemyMove : MonoBehaviour
 
     private IEnumerator Damaged()
     {
-        enemyHpBar.value -= 0.1f;
+        enemyHpBar.value -= 0.091f;
         hp--;
         spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.5f));
         yield return new WaitForSeconds(0.1f);

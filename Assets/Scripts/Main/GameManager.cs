@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Vector2 MinPosition { get; private set; }
     public Vector2 MaxPositon { get; private set; }
     public PoolManager PoolManager { get; private set; }
+    public PlayerMove Player {get;private set;}
 
 
 
@@ -25,6 +26,10 @@ public class GameManager : MonoBehaviour
     private GameObject enemyFirePrefab = null;
     [SerializeField]
     private Sprite enemyFireSprite = null;
+    [SerializeField]
+    private GameObject enemyPurplePrefab = null;
+    [SerializeField]
+    private Sprite enemyPurpleSprite = null;
 
     [SerializeField]
     private int life = 3;
@@ -34,13 +39,14 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer spriteRenderer = null;
     private EnemyMove enemyMove = null;
     private bool isEnemyFire = false;
+    private bool isEnemyPurple = false;
     private bool isExit = false;
     private float score = 0f;
     private float highScore = 0f;
-    private float timeScore=0f;
+    private float timeScore = 0f;
     
 
-    List<int> randomrange = new List<int> {1,2,3,4,5,6};
+    private List<int> randomrange = new List<int> {1,2,3,4,5,6};
     
 
     void Start()
@@ -62,6 +68,9 @@ public class GameManager : MonoBehaviour
         score += timeScore;
         AddScore((long)timeScore);
         UpdateUI();
+        if(score >= 3000){
+            isEnemyPurple = true;
+        }
     }
     private void SetVariable(){
         life = 1000;   
@@ -97,7 +106,6 @@ public class GameManager : MonoBehaviour
             int randoma = Random.Range(0,randomrange.Count);
             int num = randomrange[randoma];
             randomrange.RemoveAt(randoma);
-            // random = Random.Range(1,7);
             switch(num){
 
                 case 1: enemyX = -2.3015f; break;
@@ -110,11 +118,11 @@ public class GameManager : MonoBehaviour
             }                        
             spawningDelay = Random.Range(4f, 5f);
             
-            EnemySpawnOrInstantiate(enemyX, num);
+            EnemyFireSpawnOrInstantiate(enemyX, num);
             yield return new WaitForSeconds(spawningDelay);
         }
     }
-    private void EnemySpawnOrInstantiate(float enemyX, int idx){
+    private void EnemyFireSpawnOrInstantiate(float enemyX, int idx){
         
         if(PoolManager.enemyPool.transform.childCount > 0){
             enemy = PoolManager.enemyPool.transform.GetChild(0).gameObject;
@@ -133,6 +141,9 @@ public class GameManager : MonoBehaviour
             move.SetData(idx);
         }
     }
+    private void EnemyPurpleSpawnOrInstantiate(){
+        
+    }
     public void SetEnemyPositionDead(int idx)
     {
         randomrange.Add(idx);
@@ -140,6 +151,12 @@ public class GameManager : MonoBehaviour
     private void JudgeEnemy(){
         if(isEnemyFire == true){
             enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
+            enemy.transform.localScale = new Vector2(0.5f,0.5f);
+            enemy.GetComponent<CircleCollider2D>().radius = 1f;
+        }
+        if(isEnemyPurple == true){
+            enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
+            enemy.transform.localScale = new Vector2(0.75f,0.75f);
         }
     }
     public void Dead()
