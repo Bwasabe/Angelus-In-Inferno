@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField]
-    private long score = 0;
+    protected long score = 0;
     [SerializeField]
-    private int hp = 0;
+    protected int hp = 0;
     [SerializeField]
     protected float speed = 7f;
     [SerializeField]
@@ -33,7 +33,7 @@ public class EnemyMove : MonoBehaviour
         if (!skillBox) skillBox = FindObjectOfType<SkillBox>();
         skillBox.gameObject.SetActive(false);
     }
-    private void SetVariable()
+    protected virtual void SetVariable()
     {
         hp = 11;
         score = 100;
@@ -129,7 +129,7 @@ public class EnemyMove : MonoBehaviour
             transform.localPosition = new Vector2(transform.localPosition.x, gameManager.MaxPositon.y + 2f);
         }
     }
-    public void Despawn()
+    public virtual void Despawn()
     {
         isDead = false;
         isRush = false;

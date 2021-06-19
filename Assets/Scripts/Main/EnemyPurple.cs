@@ -39,6 +39,10 @@ public class EnemyPurple : EnemyMove
 
         // }
     }
+    protected override void SetVariable()
+    {
+        
+    }
     private void SpawnOrInstantiate()
     {
 
@@ -71,4 +75,16 @@ public class EnemyPurple : EnemyMove
             rotationZ+=24f;
         }
     }
+    // protected override void Despawn(){
+        
+    //     isRush = false;
+    //     isDamaged = false;
+    //     skillBox.gameObject.SetActive(false);
+    //     SetVariable();
+    //     enemyHpBar.value = 1f;
+    //     col.enabled = true;
+    //     transform.SetParent(gameManager.PoolManager.enemyPool.transform, false);
+    //     gameObject.SetActive(false);
+    //     gameManager.SetEnemyPositionDead(enemyIdx);
+    // }
 }
