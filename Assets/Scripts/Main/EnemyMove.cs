@@ -12,7 +12,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     protected float speed = 7f;
     [SerializeField]
-    private Slider enemyHpBar = null;
+    protected Slider enemyHpBar = null;
 
     protected GameManager gameManager = null;
     private SkillBox skillBox = null;
@@ -24,22 +24,22 @@ public class EnemyMove : MonoBehaviour
     public  int random = 0;
     
     private int enemyIdx;
-    void Start()
+    void Awake()
     {
         SetVariable();
         if (!gameManager) gameManager = FindObjectOfType<GameManager>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!col) col = GetComponent<Collider2D>();
         if (!skillBox) skillBox = FindObjectOfType<SkillBox>();
-        skillBox.gameObject.SetActive(false);
+        //skillBox.gameObject.SetActive(false);
     }
     protected virtual void SetVariable()
     {
         hp = 11;
-        score = 100;
+        score = 200;
         speed = 3f;
     }
-    private void SetHpBar(){
+    protected virtual void SetHpBar(){
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,-0.6f,0));
     }
 
@@ -58,7 +58,7 @@ public class EnemyMove : MonoBehaviour
         transform.Translate(Vector2.down*speed*Time.deltaTime);
 
     }
-    protected  virtual void Move(){
+    private void Move(){
         transform.Translate(Vector2.down * speed * Time.deltaTime);
     }
     
@@ -85,11 +85,12 @@ public class EnemyMove : MonoBehaviour
             StartCoroutine(Dead());
         }
     }
-   
-
+    protected virtual void HpMinus(){
+        enemyHpBar.value -= 0.091f;
+    }
     private IEnumerator Damaged()
     {
-        enemyHpBar.value -= 0.091f;
+        HpMinus();
         hp--;
         spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0.5f));
         yield return new WaitForSeconds(0.1f);

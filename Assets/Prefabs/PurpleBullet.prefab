@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 965343176414205153}
   - component: {fileID: 3977439163028111939}
-  - component: {fileID: 5617326688274478751}
-  m_Layer: 0
+  - component: {fileID: 2346008045233807746}
+  - component: {fileID: 4858014577922541000}
+  m_Layer: 7
   m_Name: PurpleBullet
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2761192077776413223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5617326688274478751
+--- !u!114 &2346008045233807746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +93,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2761192077776413223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c6245af6533a6488715ad3eb8b286a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b404551fe57ac4468ba83054ae47161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+--- !u!58 &4858014577922541000
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2761192077776413223}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0007842034, y: -0.04430759}
+  serializedVersion: 2
+  m_Radius: 0.0666796

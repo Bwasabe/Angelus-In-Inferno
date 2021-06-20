@@ -54,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: eda6b58056d67b5458923599c88e4c81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,8 +103,7 @@ MonoBehaviour:
   speed: 3
   enemyHpBar: {fileID: 4305326163205661646}
   random: 0
-  purplePrefab: {fileID: 375458189815764046}
-  enemyBulletSprite: {fileID: 21300000, guid: 8c2845d1509834b4685f1dd0da54161d, type: 3}
+  purpleBulletPrefab: {fileID: 2761192077776413223, guid: 90e4cc1d266ccef4ca4cb694c9d70074, type: 3}
   buleltDelay: 3
 --- !u!58 &-4868389464757063438
 CircleCollider2D:

@@ -28,8 +28,6 @@ public class GameManager : MonoBehaviour
     private Sprite enemyFireSprite = null;
     [SerializeField]
     private GameObject enemyPurplePrefab = null;
-    [SerializeField]
-    private Sprite enemyPurpleSprite = null;
 
     [SerializeField]
     private int life = 3;
@@ -62,15 +60,13 @@ public class GameManager : MonoBehaviour
         MaxPositon = new Vector2(2.35f, 4.35f);
         isEnemyFire = true;
         StartCoroutine(SpawningFire());
+        StartCoroutine(SpawningPurple());
     }
     void Update(){
         timeScore = 10*Time.deltaTime;
         score += timeScore;
         AddScore((long)timeScore);
         UpdateUI();
-        if(score >= 3000){
-            isEnemyPurple = true;
-        }
     }
     private void SetVariable(){
         life = 1000;   
@@ -122,12 +118,16 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(spawningDelay);
         }
     }
+    private IEnumerator SpawningPurple(){
+        yield return new WaitForSeconds(1f);
+        EnemyPurpleSpawnOrInstantiate();
+    }
     private void EnemyFireSpawnOrInstantiate(float enemyX, int idx){
         
         if(PoolManager.enemyPool.transform.childCount > 0){
             enemy = PoolManager.enemyPool.transform.GetChild(0).gameObject;
             enemy.layer = LayerMask.NameToLayer("Enemy");
-            JudgeEnemy();
+            //JudgeEnemy();
             enemy.SetActive(true);
             enemy.transform.rotation = Quaternion.identity;
             enemy.transform.position = new Vector2(enemyX,6f);
@@ -148,13 +148,12 @@ public class GameManager : MonoBehaviour
             enemy = PoolManager.enemyPurplePool.transform.GetChild(0).gameObject;
             //enemy.layer = LayerMask.NameToLayer("Enemy");
             //JudgeEnemy();
-
             enemy.SetActive(true);
             enemy.transform.rotation = Quaternion.identity;
             enemy.transform.position = new Vector2(-2f,3.7f);
          }
         else{
-            enemy = Instantiate(enemyFirePrefab,new Vector2(-2f,3.7f),Quaternion.identity);
+            enemy = Instantiate(enemyPurplePrefab,new Vector2(2f,3.7f),Quaternion.identity);
         }
         if(enemy != null){
             enemy.transform.SetParent(null);
@@ -164,17 +163,18 @@ public class GameManager : MonoBehaviour
     {
         randomrange.Add(idx);
     }
-    private void JudgeEnemy(){
-        if(isEnemyFire == true){
-            enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
-            enemy.transform.localScale = new Vector2(0.5f,0.5f);
-            enemy.GetComponent<CircleCollider2D>().radius = 1f;
-        }
-        // if(isEnemyPurple == true){
-        //     enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
-        //     enemy.transform.localScale = new Vector2(0.75f,0.75f);
-        // }
-    }
+
+    // private void JudgeEnemy(){
+    //     if(isEnemyFire == true){
+    //         enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
+    //         enemy.transform.localScale = new Vector2(0.5f,0.5f);
+    //         enemy.GetComponent<CircleCollider2D>().radius = 1f;
+    //     }
+    //     // if(isEnemyPurple == true){
+    //     //     enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
+    //     //     enemy.transform.localScale = new Vector2(0.75f,0.75f);
+    //     // }
+    // }
     public void Dead()
     {
         life--;
