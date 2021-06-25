@@ -8,7 +8,11 @@ public class EnemyPurple : EnemyMove
     private GameObject purpleBulletPrefab = null;
  
     [SerializeField]
-    private float buleltDelay = 3f;
+    private float buleltDelay = 2f;
+    [SerializeField]
+    private Sprite purpleBulletSprite = null;
+    [SerializeField]
+    private Transform bulletPosition = null;
 
 
     private Vector2 diff = Vector2.zero;
@@ -19,9 +23,16 @@ public class EnemyPurple : EnemyMove
 
     void Start()
     {
-        if (!gameManager) gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(PurpleFire());
         SetVariable();
+    }
+    private void OnEnable(){
+        SetHpBar();
+        SetVariable();
+        StartCoroutine(PurpleFire());
+    }
+    private void OnDisable(){
+        StopCoroutine(PurpleFire());
     }
     private void Update()
     {
@@ -52,6 +63,7 @@ public class EnemyPurple : EnemyMove
         }
     }
     protected override void SetHpBar(){
+        if(!enemyHpBar)return;
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,-0.9f,0));
     }
     protected override void SetVariable()
@@ -70,32 +82,34 @@ public class EnemyPurple : EnemyMove
         if (gameManager.PoolManager.enemyBullet.transform.childCount > 0)
         {
             enemyBullet = gameManager.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
+            enemyBullet.SetActive(true);
             enemyBullet.transform.localScale = new Vector2(2, 2);
             enemyBullet.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
             enemyBullet.transform.SetParent(transform, false);
             enemyBullet.transform.position = transform.position;
-            enemyBullet.SetActive(true);
+            JudgeBullet();
         }
         else
         {
-            enemyBullet = Instantiate(purpleBulletPrefab, new Vector2(transform.localPosition.x, transform.localPosition.y) ,Quaternion.identity);
+            enemyBullet = Instantiate(purpleBulletPrefab, bulletPosition);
+            JudgeBullet();
             enemyBullet.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
         }
 
 
         if (enemyBullet != null)
         {
-            //enemyBullet.layer = LayerMask.NameToLayer("Enemy");
-            //enemyBullet.GetComponent<SpriteRenderer>().sprite = enemyBulletSprite;
-            //enemyBullet.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ - 90f);
             enemyBullet.transform.SetParent(null);
         }
+    }
+    private void JudgeBullet(){
+        enemyBullet.GetComponent<SpriteRenderer>().sprite = purpleBulletSprite;
     }
     private IEnumerator PurpleFire()
     {
         while (true)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(buleltDelay);
             for (int i = 0; i < 30; i++)
             {
                 SpawnOrInstantiate();
@@ -103,16 +117,14 @@ public class EnemyPurple : EnemyMove
             }
         }
     }
-    // protected override void Despawn(){
-
-    //     isRush = false;
-    //     isDamaged = false;
-    //     skillBox.gameObject.SetActive(false);
-    //     SetVariable();
-    //     enemyHpBar.value = 1f;
-    //     col.enabled = true;
-    //     transform.SetParent(gameManager.PoolManager.enemyPool.transform, false);
-    //     gameObject.SetActive(false);
-    //     gameManager.SetEnemyPositionDead(enemyIdx);
-    // }
+    protected override void Despawn()
+    {
+        RandomItemDrop();
+        isDead = false;
+        SetVariable();
+        enemyHpBar.value = 1f;
+        col.enabled = true;
+        transform.SetParent(gameManager.PoolManager.enemyPurplePool.transform, false);
+        gameObject.SetActive(false);
+    }
 }

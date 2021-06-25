@@ -29,9 +29,10 @@ Transform:
   m_GameObject: {fileID: 375458189815764046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.69, y: 3.59, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2709816318028571284}
+  - {fileID: 3404971354093746612}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 745f97367efd1824f930f0ee12e6e8c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 909428d72ff1b2f44855b4f21ed932c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,9 +103,15 @@ MonoBehaviour:
   hp: 15
   speed: 3
   enemyHpBar: {fileID: 4305326163205661646}
-  random: 0
+  fastItemPrefab: {fileID: 7689287205033183781, guid: d048819502d948d42b5429066a999196, type: 3}
+  fastItemSprite: {fileID: 21300000, guid: 84daa4c047b400244921e4f3a7ac68a8, type: 3}
+  changeItemPrefab: {fileID: 2397976572211638804, guid: 4027b0e35d96ed84f99a1e1ca83a1d34, type: 3}
+  changeItemSprite: {fileID: 21300000, guid: 8f59575a063ffa4469129a9760afcd96, type: 3}
+  clip: {fileID: 0}
   purpleBulletPrefab: {fileID: 2761192077776413223, guid: 90e4cc1d266ccef4ca4cb694c9d70074, type: 3}
   buleltDelay: 3
+  purpleBulletSprite: {fileID: 21300000, guid: 8c2845d1509834b4685f1dd0da54161d, type: 3}
+  bulletPosition: {fileID: 3404971354093746612}
 --- !u!58 &-4868389464757063438
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,7 +122,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -142,6 +149,36 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &435057109516950220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3404971354093746612}
+  m_Layer: 7
+  m_Name: BulletPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3404971354093746612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435057109516950220}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1663485544723371031}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2849548706916801453
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -335.5, y: -481.89795}
+  m_AnchoredPosition: {x: 0, y: 1000}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4305326163205661646

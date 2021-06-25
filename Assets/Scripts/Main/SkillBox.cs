@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class SkillBox : MonoBehaviour
 {
-    void Awake(){
+    void Awake()
+    {
         gameObject.SetActive(false);
     }
-    public IEnumerator Warning(){
-        gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
-        gameObject.SetActive(false);
+    public IEnumerator Warning()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+        }
+            gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.4f);
+            gameObject.SetActive(false);
+
     }
 }

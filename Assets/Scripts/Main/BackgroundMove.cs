@@ -8,6 +8,7 @@ public class BackgroundMove : MonoBehaviour
 
     private MeshRenderer meshRenderer = null;
     private Vector2 offset = Vector2.zero;
+
     void Start()
     {
         offset.y = PlayerPrefs.GetFloat("OffsetY" , 0);
@@ -18,5 +19,8 @@ public class BackgroundMove : MonoBehaviour
     {
         offset.y+=speed * Time.deltaTime;
         meshRenderer.material.SetTextureOffset("_MainTex",offset);
+    }
+    public void SetOffsetY(){
+        PlayerPrefs.SetFloat("OffsetY",offset.y );
     }
 }
