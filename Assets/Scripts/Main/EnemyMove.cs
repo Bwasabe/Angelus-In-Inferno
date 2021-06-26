@@ -68,7 +68,6 @@ public class EnemyMove : MonoBehaviour
     }
     protected virtual void SetHpBar()
     {
-        if (!enemyHpBar) return;
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.6f, 0));
     }
 

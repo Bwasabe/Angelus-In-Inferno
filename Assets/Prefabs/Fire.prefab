@@ -108,9 +108,7 @@ MonoBehaviour:
   fastItemSprite: {fileID: 21300000, guid: 84daa4c047b400244921e4f3a7ac68a8, type: 3}
   changeItemPrefab: {fileID: 2397976572211638804, guid: 4027b0e35d96ed84f99a1e1ca83a1d34, type: 3}
   changeItemSprite: {fileID: 21300000, guid: 8f59575a063ffa4469129a9760afcd96, type: 3}
-  clip:
-  - {fileID: 8300000, guid: 4a00f6df2766c1f428bbf209495f6395, type: 3}
-  - {fileID: 8300000, guid: 5062970cc1474f24d95d3bc9ee7223fb, type: 3}
+  clip: {fileID: 8300000, guid: 5062970cc1474f24d95d3bc9ee7223fb, type: 3}
 --- !u!50 &-6779226889852051402
 Rigidbody2D:
   serializedVersion: 4
@@ -158,7 +156,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4a00f6df2766c1f428bbf209495f6395, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5062970cc1474f24d95d3bc9ee7223fb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -549,7 +547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -335.5, y: -481.89795}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8468606829577303127

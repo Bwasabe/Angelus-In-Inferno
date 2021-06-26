@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class BottonManager : MonoBehaviour
+public class StartButtonManager : MonoBehaviour
 {
     private BackgroundMove backgroundMove = null;
     void Start(){
