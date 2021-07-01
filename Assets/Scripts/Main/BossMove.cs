@@ -14,6 +14,8 @@ public class BossMove : EnemyMove
     private GameObject bossPurpleFirePrefab = null;
     [SerializeField]
     private GameObject arrow = null;
+    [SerializeField]
+    private Canvas bossCanvas = null;
 
     private GameObject bossBullet = null;
     private GameObject bossBigBullet = null;
@@ -39,13 +41,14 @@ public class BossMove : EnemyMove
 
     private void OnEnable()
     {
-        gameManager.StopSpawning();
+        //gameManager.StopSpawning();
     }
     private void OnDisable()
     {
         gameManager.FalseBoss();
-        gameManager.Startspawning();
+        //gameManager.Startspawning();
     }
+
     void Update()
     {
         Move();
@@ -54,7 +57,7 @@ public class BossMove : EnemyMove
     {
         transform.Translate(Vector2.down * speed * Time.deltaTime);
     }
-    protected override void SetHpBar()
+    public override void SetHpBar()
     {
         if (!enemyHpBar) return;
     }
@@ -69,11 +72,12 @@ public class BossMove : EnemyMove
     }
     protected override void HpMinus()
     {
-        enemyHpBar.value -= 0.01f;
+        //enemyHpBar.value -= 0.01f;
+        enemyHpBar.value -= 0.0034f;
     }
     protected override void SetVariable()
     {
-        hp = 100;
+        hp = 300;
         score = 5000;
     }
     private IEnumerator RandomFire()
@@ -82,18 +86,18 @@ public class BossMove : EnemyMove
         {
             yield return new WaitWhile(() => isRFire);
             yield return new WaitWhile(() => isFire);
-            yield return new WaitForSeconds(1.5f);
+            //yield return new WaitForSeconds(1.5f);
             int random = Random.Range(1, 3);
             switch (random)
             {
 
                 case 1:
-                    StartCoroutine(BossFire());
                     yield return new WaitForSeconds(1f);
+                    StartCoroutine(BossFire());
                     break;
                 case 2:
-                    StartCoroutine(BossPurpleFire());
                     yield return new WaitForSeconds(1f);
+                    StartCoroutine(BossPurpleFire());
                     break;
             }
         }
@@ -157,7 +161,7 @@ public class BossMove : EnemyMove
         if (gameManager.PoolManager.bossPurplePool.transform.childCount > 0)
         {
             bossBigBullet = gameManager.PoolManager.bossPurplePool.transform.GetChild(0).gameObject;
-            bossBigBullet.transform.localScale = new Vector2(4, 4);
+            //bossBigBullet.transform.localScale = new Vector2(4, 4);
             //JudgeBullet();
             bossBigBullet.transform.SetParent(transform, false);
             bossBigBullet.transform.position = transform.position;
@@ -243,13 +247,14 @@ public class BossMove : EnemyMove
         yield return new WaitForSeconds(0.5f);
         isFire = false;
     }
+    // private IEnumerator BossRush(){
+
+    // }
     protected override void Despawn()
     {
         gameManager.FalseBoss();
         transform.SetParent(gameManager.PoolManager.bossPool.transform, false);
         gameObject.SetActive(false);
     }
-    // private IEnumerator BossRush(){
-
-    // }
+    
 }

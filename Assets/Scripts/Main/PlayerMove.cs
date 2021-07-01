@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
-    [Header("í”Œë ˆì´ì–´")]
+    [Header("?”Œ? ˆ?´?–´")]
     [SerializeField]
     private float speed = 10f;
     [SerializeField]
@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     private Sprite[] changeSprite = null;
     [SerializeField]
     private Sprite[] skillSprite = null;
-    [Header("íš¨ê³¼ìŒ")]
+    [Header("?š¨ê³¼ìŒ")]
     [SerializeField]
     private AudioClip[] audioClip = null;
 
@@ -75,7 +75,7 @@ public class PlayerMove : MonoBehaviour
 
         //if(Input.GetTouch(0).phase == TouchPhase.Ended)
         //{
-        //    dis = (Vector2)transform.position - (mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(1).position));          //ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!ì²œìŠ¹í˜„ì€ ì‹ ì´ì•¼!
+        //    dis = (Vector2)transform.position - (mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(1).position));          //ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!
         //}
 
         playerPosition = mousePosition + distance;
@@ -102,6 +102,7 @@ public class PlayerMove : MonoBehaviour
         FastDelay();
     }
     public void PlayFastSound(){
+        isFastDelay = true;
         StartCoroutine(PlayFastSkill());
     }
     public void FastDelay()
@@ -130,6 +131,7 @@ public class PlayerMove : MonoBehaviour
     }
     private IEnumerator PlayWingSound(){
         SkillSpawnOrInstantiate();
+        StartCoroutine(ChangePlayer());
         if(isAngel){
             audioSource.PlayOneShot(audioClip[1]);
             yield return new WaitForSeconds(1f);
@@ -139,7 +141,6 @@ public class PlayerMove : MonoBehaviour
             audioSource.PlayOneShot(audioClip[2]);
             yield return new WaitForSeconds(0.2f);
         }
-            StartCoroutine(ChangePlayer());
     }
     private IEnumerator ChangePlayer()
     {

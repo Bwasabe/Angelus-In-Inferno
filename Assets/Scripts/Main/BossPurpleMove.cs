@@ -38,14 +38,14 @@ public class BossPurpleMove : BulletMove
     }
     public override void Despawn(){
         transform.rotation = Quaternion.identity;
-
+ 
         for (int i = 0; i < 15; i++)
         {
             SpawnOrInstantiate();
             rotationZ += 24f;
         }
         rotationZ = 24f;
-        transform.SetParent(gameManager.PoolManager.enemyPurplePool.transform,false);
+        transform.SetParent(gameManager.PoolManager.bossPurplePool.transform,false);
         gameObject.SetActive(false);
     }
     private void SpawnOrInstantiate()

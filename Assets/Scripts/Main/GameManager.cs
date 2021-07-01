@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public PlayerMove Player { get; private set; }
 
 
-    [Header("텍스트")]
+    [Header("�ؽ�Ʈ")]
     [SerializeField]
     private Text textScore = null;
     [SerializeField]
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text textChangeCount = null;
 
-    [Header("몬스터")]
+    [Header("��")]
     [SerializeField]
     private GameObject enemyFirePrefab = null;
     [SerializeField]
@@ -37,11 +37,13 @@ public class GameManager : MonoBehaviour
     private int life = 3;
     [SerializeField]
     private Canvas[] canvas = null;
-
+    [SerializeField]
+    private Transform[] enemySpawn = null;
 
     private GameObject enemy = null;
     private SpriteRenderer spriteRenderer = null;
     private EnemyMove enemyMove = null;
+    private EnemyPurple enemyPurple = null;
     private bool isExit;
     private bool isBoss;
     public bool isStop = false;
@@ -51,10 +53,10 @@ public class GameManager : MonoBehaviour
     private float highScore = 0f;
     private float timeScore = 0f;
     private float purple = 2500;
-    private float boss = 20000f;
+    private float boss = 1000f;
 
 
-    private List<int> randomrange = new List<int> { 1, 2, 3, 4, 5, 6 };
+    private List<int> randomrange = new List<int> { 0, 1, 2, 3, 4, 5 };
 
     void Start()
     {
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         if (!PoolManager) PoolManager = FindObjectOfType<PoolManager>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
+        if (!enemyPurple) enemyPurple = FindObjectOfType<EnemyPurple>();
         //new Vector2(-2.35f, -4.393f);
         //new Vector2(2.35f, 4.35f);
         highScore = PlayerPrefs.GetInt("BEST", 0);
@@ -147,17 +150,7 @@ public class GameManager : MonoBehaviour
             int randoma = Random.Range(0, randomrange.Count);
             int num = randomrange[randoma];
             randomrange.RemoveAt(randoma);
-            switch (num)
-            {
-
-                case 1: enemyX = -2.3015f; break;
-                case 2: enemyX = -1.3805f; break;
-                case 3: enemyX = -0.4595f; break;
-                case 4: enemyX = 0.4615f; break;
-                case 5: enemyX = 1.3825f; break;
-                case 6: enemyX = 2.3035f; break;
-
-            }
+            enemyX = enemySpawn[num].position.x;
             spawningDelay = Random.Range(3.8f, 4.3f);
 
             EnemyFireSpawnOrInstantiate(enemyX, num);
@@ -194,8 +187,9 @@ public class GameManager : MonoBehaviour
         }
         if (score >= purple)
         {
-            isExit = true;
             purple += 2500;
+            if(isBoss)return;
+            isExit = true;
         }
     }
 
@@ -220,6 +214,7 @@ public class GameManager : MonoBehaviour
         {
             enemy.transform.SetParent(null);
             EnemyMove move = enemy.GetComponent<EnemyMove>();
+            move.SetHpBar();
             move.SetData(idx);
         }
     }
@@ -242,6 +237,8 @@ public class GameManager : MonoBehaviour
         if (enemy != null)
         {
             enemy.transform.SetParent(null);
+            EnemyPurple pMove = enemy.GetComponent<EnemyPurple>();
+            pMove.SetHpBar();
         }
     }
     private void BossSpawnOrInstantiate()

@@ -27,7 +27,6 @@ public class EnemyPurple : EnemyMove
         SetVariable();
     }
     private void OnEnable(){
-        SetHpBar();
         SetVariable();
         StartCoroutine(PurpleFire());
     }
@@ -62,7 +61,7 @@ public class EnemyPurple : EnemyMove
             isLeft = true;
         }
     }
-    protected override void SetHpBar(){
+    public override void SetHpBar(){
         if(!enemyHpBar)return;
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0,-0.9f,0));
     }
@@ -71,6 +70,7 @@ public class EnemyPurple : EnemyMove
         hp = 15;
         score = 1000;
         speed = 0.5f;
+        buleltDelay = 2f;
     }
     protected override void HpMinus()
     {

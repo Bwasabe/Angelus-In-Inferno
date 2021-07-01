@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class EnemyBulletMove : BulletMove
 {
-    private void OnEnable(){
-        transform.Rotate(0f,0f,0f,Space.World);
-    }
     protected override void Limit()
     {
         if(transform.localPosition.y > gameManager.MaxPositon.y+0.5f){

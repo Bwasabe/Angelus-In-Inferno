@@ -14,7 +14,7 @@ public class EnemyMove : MonoBehaviour
     protected float speed = 7f;
     [SerializeField]
     protected Slider enemyHpBar = null;
-    [Header("ì•„ì´í…œ")]
+    [Header("¾ÆÀÌÅÛ")]
     [SerializeField]
     private GameObject fastItemPrefab = null;
     [SerializeField]
@@ -23,7 +23,7 @@ public class EnemyMove : MonoBehaviour
     private GameObject changeItemPrefab = null;
     [SerializeField]
     private Sprite changeItemSprite = null;
-    [Header("ì†Œë¦¬")]
+    [Header("»ç¿îµå")]
     [SerializeField]
     private AudioClip clip = null;
 
@@ -38,6 +38,7 @@ public class EnemyMove : MonoBehaviour
     protected GameObject item = null;
     private bool isRush = false;
     protected bool isDead = false;
+    private bool isDamaged = false;
     protected int random = 0;
 
 
@@ -56,17 +57,13 @@ public class EnemyMove : MonoBehaviour
         //skillBox.gameObject.SetActive(false);
 
     }
-    private void OnEnable()
-    {
-        SetHpBar();
-    }
     protected virtual void SetVariable()
     {
-        hp = 11;
+        hp = 12;
         score = 200;
         speed = 3f;
     }
-    protected virtual void SetHpBar()
+    public virtual void SetHpBar()
     {
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.6f, 0));
     }
@@ -120,11 +117,13 @@ public class EnemyMove : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (isDead) return;
         if (collision.CompareTag("Skill"))
         {
-            if (isDead) return;
+            if(isDamaged)return;
             if (hp > 1)
             {
+                isDamaged = true;
                 StartCoroutine(Damanged());
                 return;
             }
@@ -147,11 +146,12 @@ public class EnemyMove : MonoBehaviour
         spriteRenderer.material.SetColor("_Color" , new Color(1f,1f,1f,0f));
         yield return new WaitForSeconds(0.1f);
         spriteRenderer.material.SetColor("_Color",new Color(0f,0f,0f,0f));
+        isDamaged = false;
 
     }
     protected virtual void HpMinus()
     {
-        enemyHpBar.value -= 0.091f;
+        enemyHpBar.value -= 0.084f;
     }
 
     private void Dead()
@@ -189,6 +189,7 @@ public class EnemyMove : MonoBehaviour
     }
     protected virtual void Despawn()
     {
+        enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 10f, 0));
         RandomItemDrop();
         isDead = false;
         isRush = false;
