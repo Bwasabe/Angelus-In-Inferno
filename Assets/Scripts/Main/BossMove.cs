@@ -13,53 +13,83 @@ public class BossMove : EnemyMove
     [SerializeField]
     private GameObject bossPurpleFirePrefab = null;
     [SerializeField]
+    private GameObject bossSwardPrefab = null;
+    [SerializeField]
     private GameObject arrow = null;
     [SerializeField]
     private Canvas bossCanvas = null;
+    [SerializeField]
+    private GameObject[] laser = null;
+    [SerializeField]
+    private GameObject bSkillBox = null;
 
     private GameObject bossBullet = null;
     private GameObject bossBigBullet = null;
+    private GameObject bossSward = null;
+
     private ArrowMove arrowMove = null;
+    private Animator animator = null;
     private float bRotationZ = 0f;
     private float pRotationZ = 0f;
     private Vector2 diff = Vector2.zero;
     private bool isBig = false;
     private bool isFire = false;
     private bool isRFire = false;
+    private bool isSward = false;
+    private bool isCharge = false;
+    private bool bIsRush = false;
+    private bool isLeft = false;
+    private bool isRight = false;
     private float ebspeed = 0f;
     IEnumerator Start()
     {
         if (!arrowMove) arrowMove = FindObjectOfType<ArrowMove>();
+        if (!animator) animator = GetComponent<Animator>();
+        animator.enabled = false;
         gameManager.StopSpawning();
         speed = 3f;
         StartCoroutine(FillHp());
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.4f);
         speed = 0f;
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(RandomFire());
     }
 
-    private void OnEnable()
-    {
-        //gameManager.StopSpawning();
-    }
+
+    // private void OnEnable()
+    // {
+    //     //gameManager.StopSpawning();
+    // }
     private void OnDisable()
     {
         gameManager.FalseBoss();
         //gameManager.Startspawning();
     }
 
-    void Update()
+    protected override void Update()
     {
-        Move();
-    }
-    private void Move()
-    {
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
+        if (bIsRush)
+        {
+            transform.localPosition = new Vector2(transform.localPosition.x, gameManager.Player.transform.localPosition.y);
+        }
+        else if (isLeft)
+        {
+            transform.Translate(Vector2.left * speed * Time.deltaTime);
+        }
+        else if (isRight)
+        {
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+        }
+        else
+        {
+            Move();
+        }
     }
     public override void SetHpBar()
     {
         if (!enemyHpBar) return;
+        enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(new Vector3(0, 4.85f, 0));
+
     }
     private IEnumerator FillHp()
     {
@@ -79,28 +109,40 @@ public class BossMove : EnemyMove
     {
         hp = 300;
         score = 5000;
+        speed = 3f;
     }
     private IEnumerator RandomFire()
     {
-        while (true)
+        yield return new WaitWhile(() => isRFire);
+        yield return new WaitWhile(() => isFire);
+        yield return new WaitWhile(() => isSward);
+        yield return new WaitWhile(() => isCharge);
+        //yield return new WaitForSeconds(1.5f);
+        int random = Random.Range(3, 5);
+        switch (random)
         {
-            yield return new WaitWhile(() => isRFire);
-            yield return new WaitWhile(() => isFire);
-            //yield return new WaitForSeconds(1.5f);
-            int random = Random.Range(1, 3);
-            switch (random)
-            {
-
-                case 1:
-                    yield return new WaitForSeconds(1f);
-                    StartCoroutine(BossFire());
-                    break;
-                case 2:
-                    yield return new WaitForSeconds(1f);
-                    StartCoroutine(BossPurpleFire());
-                    break;
-            }
+            case 1:
+                isRFire = true;
+                yield return new WaitForSeconds(1f);
+                StartCoroutine(BossFire());
+                break;
+            case 2:
+                isFire = true;
+                yield return new WaitForSeconds(1f);
+                StartCoroutine(BossPurpleFire());
+                break;
+            case 3:
+                isSward = true;
+                yield return new WaitForSeconds(1f);
+                StartCoroutine(BossSward());
+                break;
+            case 4:
+                isCharge = true;
+                yield return new WaitForSeconds(1f);
+                StartCoroutine(BossRush());
+                break;
         }
+        StartCoroutine(RandomFire());
     }
     private void SpawnOrInstantiate()
     {
@@ -181,6 +223,30 @@ public class BossMove : EnemyMove
             bossBigBullet.transform.SetParent(null);
         }
     }
+    private void SwardSpawnOrInstantiate(float swardX)
+    {
+
+
+        if (gameManager.PoolManager.bossSwardPool.transform.childCount > 0)
+        {
+            bossSward = gameManager.PoolManager.bossSwardPool.transform.GetChild(0).gameObject;
+            bossSward.transform.SetParent(transform, false);
+            bossSward.transform.position = new Vector2(swardX, 6f);
+            bossSward.SetActive(true);
+            //bossSward.transform.rotation = Quaternion.Euler(0f, 0f, pRotationZ);
+        }
+        else
+        {
+            bossSward = Instantiate(bossSwardPrefab, new Vector2(swardX, 6f), Quaternion.identity);
+            //bossSward.transform.rotation = Quaternion.Euler(0f, 0f, pRotationZ);
+        }
+
+
+        if (bossSward != null)
+        {
+            bossSward.transform.SetParent(null);
+        }
+    }
     private void JudgeBullet()
     {
         bossBullet.GetComponent<SpriteRenderer>().sprite = bossBulletSprite;
@@ -195,7 +261,7 @@ public class BossMove : EnemyMove
             yield return new WaitForSeconds(0.1f);
             bRotationZ -= 9f;
         }
-        bRotationZ +=3f;
+        bRotationZ += 3f;
         for (int i = 0; i < 10; i++)
         {
             SpawnOrInstantiate();
@@ -211,7 +277,6 @@ public class BossMove : EnemyMove
         arrow.gameObject.SetActive(true);
         isBig = true;
         yield return new WaitForSeconds(0.8f);
-
         for (int i = 0; i < 3; i++)
         {
             arrowMove.stopRotation = true;
@@ -247,14 +312,69 @@ public class BossMove : EnemyMove
         yield return new WaitForSeconds(0.5f);
         isFire = false;
     }
-    // private IEnumerator BossRush(){
-
-    // }
+    private IEnumerator BossSward()
+    {
+        int[] arr = new int[3];
+        animator.enabled = true;
+        animator.Play("BossMove");
+        yield return new WaitForSeconds(0.7f);
+        int ran = Random.Range(1, 3);
+        if (ran == 1)
+        {
+            animator.Play("LBossSward");
+            arr = new int[3] { -1, 1, -1 };
+        }
+        if (ran == 2)
+        {
+            animator.Play("RBossSward");
+            arr = new int[3] { 1, -1, 1 };
+        }
+        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < 3; i++)
+        {
+            SwardSpawnOrInstantiate(arr[i]);
+            yield return new WaitForSeconds(0.5f);
+        }
+        isSward = false;
+        animator.enabled = false;
+    }
+    private IEnumerator BossRush()
+    {
+        speed = -3f;
+        yield return new WaitForSeconds(1.7f);
+        speed = 0f;
+        bSkillBox.SetActive(true);
+        transform.localPosition = new Vector2(transform.localPosition.x + 3f, transform.localPosition.y);
+        bIsRush = true;
+        yield return new WaitForSeconds(1f);
+        bIsRush = false;
+        StartCoroutine(bossSkillBox.Warning());
+        yield return new WaitForSeconds(0.4f);
+        isLeft = true;
+        speed = 30f;
+        yield return new WaitForSeconds(0.2f);
+        isLeft = false;
+        speed = 0f;
+        bIsRush = true;
+        yield return new WaitForSeconds(0.8f);
+        bIsRush = false;
+        StartCoroutine(bossSkillBox.Warning());
+        yield return new WaitForSeconds(0.4f);
+        isRight = true;
+        speed = 30f;
+        yield return new WaitForSeconds(0.2f);
+        isRight = false;
+        speed = 3f;
+        transform.localPosition = new Vector2(0f, 6.71f);
+        yield return new WaitForSeconds(1.4f);
+        speed = 0f;
+        isCharge = false;
+    }
     protected override void Despawn()
     {
         gameManager.FalseBoss();
         transform.SetParent(gameManager.PoolManager.bossPool.transform, false);
         gameObject.SetActive(false);
     }
-    
+
 }

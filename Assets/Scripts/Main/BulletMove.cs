@@ -12,7 +12,7 @@ public class BulletMove : MonoBehaviour
         SetVariable();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         transform.Translate(Vector2.up*speed*Time.deltaTime);
         Limit();

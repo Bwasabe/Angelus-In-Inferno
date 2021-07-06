@@ -29,6 +29,7 @@ public class EnemyMove : MonoBehaviour
 
 
     protected GameManager gameManager = null;
+    protected BossSkillBox bossSkillBox = null;
     private PlayerMove playerMove = null;
     private SkillBox skillBox = null;
     private ItemMove itemMove = null;
@@ -54,6 +55,7 @@ public class EnemyMove : MonoBehaviour
         if (!skillBox) skillBox = FindObjectOfType<SkillBox>();
         if (!playerMove) playerMove = FindObjectOfType<PlayerMove>();
         if (!audioSource) audioSource = GetComponent<AudioSource>();
+        if (!bossSkillBox) bossSkillBox = FindObjectOfType<BossSkillBox>();
         //skillBox.gameObject.SetActive(false);
 
     }
@@ -68,7 +70,7 @@ public class EnemyMove : MonoBehaviour
         enemyHpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, -0.6f, 0));
     }
 
-    void Update()
+    protected virtual void Update()
     {
         SetHpBar();
         if (isDead) return;
@@ -79,10 +81,10 @@ public class EnemyMove : MonoBehaviour
             StartCoroutine(Rush());
         }
 
-        transform.Translate(Vector2.down * speed * Time.deltaTime);
+        Move();
 
     }
-    private void Move()
+    protected virtual void Move()
     {
         transform.Translate(Vector2.down * speed * Time.deltaTime);
     }
@@ -120,7 +122,7 @@ public class EnemyMove : MonoBehaviour
         if (isDead) return;
         if (collision.CompareTag("Skill"))
         {
-            if(isDamaged)return;
+            if (isDamaged) return;
             if (hp > 1)
             {
                 isDamaged = true;
@@ -139,13 +141,13 @@ public class EnemyMove : MonoBehaviour
             StopCoroutine(Damanged());
         }
     }
-    private IEnumerator Damanged()
+    protected virtual IEnumerator Damanged()
     {
         HpMinus();
         hp--;
-        spriteRenderer.material.SetColor("_Color" , new Color(1f,1f,1f,0f));
+        spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0f));
         yield return new WaitForSeconds(0.1f);
-        spriteRenderer.material.SetColor("_Color",new Color(0f,0f,0f,0f));
+        spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         isDamaged = false;
 
     }

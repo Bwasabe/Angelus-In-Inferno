@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public PoolManager PoolManager { get; private set; }
     public PlayerMove Player { get; private set; }
 
-
     [Header("≈ÿΩ∫∆Æ")]
     [SerializeField]
     private Text textScore = null;
@@ -44,6 +43,7 @@ public class GameManager : MonoBehaviour
     private SpriteRenderer spriteRenderer = null;
     private EnemyMove enemyMove = null;
     private EnemyPurple enemyPurple = null;
+    private ButtonManager buttonManager = null;
     private bool isExit;
     private bool isBoss;
     public bool isStop = false;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     private float highScore = 0f;
     private float timeScore = 0f;
     private float purple = 2500;
-    private float boss = 1000f;
+    private float boss = 0000f;
 
 
     private List<int> randomrange = new List<int> { 0, 1, 2, 3, 4, 5 };
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
         if (!enemyPurple) enemyPurple = FindObjectOfType<EnemyPurple>();
+        if (!buttonManager) buttonManager = FindObjectOfType<ButtonManager>();
         //new Vector2(-2.35f, -4.393f);
         //new Vector2(2.35f, 4.35f);
         highScore = PlayerPrefs.GetInt("BEST", 0);
@@ -94,11 +95,11 @@ public class GameManager : MonoBehaviour
         {
             if (isStop)
             {
-                Time.timeScale = 1f;
-                Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
                 isStop = false;
-                canvas[0].enabled = true;
                 canvas[1].enabled = false;
+                canvas[2].enabled = true;
+                StartCoroutine(buttonManager.CountDown());
                 return;
 
 
@@ -133,7 +134,7 @@ public class GameManager : MonoBehaviour
         textFastCount.text = string.Format("{0}", delayCount);
         textChangeCount.text = string.Format("{0}", changeCount);
     }
-    public IEnumerator SpawningFire()
+    private IEnumerator SpawningFire()
     {
         float spawningDelay = 0f;
         float enemyX = 0;
@@ -188,7 +189,7 @@ public class GameManager : MonoBehaviour
         if (score >= purple)
         {
             purple += 2500;
-            if(isBoss)return;
+            if (isBoss) return;
             isExit = true;
         }
     }

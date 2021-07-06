@@ -20,6 +20,7 @@ TagManager:
   - Enemy
   - Item
   - Skill
+  - Boss
   - 
   - 
   - 
@@ -40,12 +41,26 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Button
   m_SortingLayers:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: Enemy
+    uniqueID: 224841119
+    locked: 0
+  - name: Boss
+    uniqueID: 2220839413
+    locked: 0
+  - name: Player
     uniqueID: 783686103
+    locked: 0
+  - name: Item
+    uniqueID: 1810187929
+    locked: 0
+  - name: Skill
+    uniqueID: 1991398201
+    locked: 0
+  - name: UI
+    uniqueID: 2049779463
     locked: 0

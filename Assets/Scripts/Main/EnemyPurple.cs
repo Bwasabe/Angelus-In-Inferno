@@ -33,13 +33,13 @@ public class EnemyPurple : EnemyMove
     private void OnDisable(){
         StopCoroutine(PurpleFire());
     }
-    private void Update()
+    protected override void Update()
     {
         Move();
         SetHpBar();
         JudgeLR();
     }
-    private void Move(){
+    protected override void Move(){
         if(isLeft){
             transform.Translate(Vector2.left * speed * Time.deltaTime);
         }

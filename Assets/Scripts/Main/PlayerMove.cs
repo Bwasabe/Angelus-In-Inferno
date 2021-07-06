@@ -262,6 +262,14 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Damaged());
         }
     }
+    private void OnTriggerStay2D(Collider2D collision){
+        if(isSkill)return;
+        if(isDamaged)return;
+        if(collision.CompareTag("Enemy") || collision.CompareTag("Boss")){
+            isDamaged = true;
+            StartCoroutine(Damaged());
+        }
+    }
     private IEnumerator Damaged()
     {
         gameManager.Dead();

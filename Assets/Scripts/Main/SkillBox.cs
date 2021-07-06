@@ -8,7 +8,7 @@ public class SkillBox : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public IEnumerator Warning()
+    public virtual IEnumerator Warning()
     {
         for (int i = 0; i < 3; i++)
         {
