@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public Vector2 MaxPositon { get; private set; }
     public PoolManager PoolManager { get; private set; }
     public PlayerMove Player { get; private set; }
+    public BackgroundMusic backgroundMusic {get; private set;}
 
     [Header("≈ÿΩ∫∆Æ")]
     [SerializeField]
@@ -53,7 +54,10 @@ public class GameManager : MonoBehaviour
     private float highScore = 0f;
     private float timeScore = 0f;
     private float purple = 2500;
-    private float boss = 0000f;
+    private float boss = 20000f;
+    private int fireCount = 0;
+    private int purpleCount = 0;
+    private int bossCount = 0;
 
 
     private List<int> randomrange = new List<int> { 0, 1, 2, 3, 4, 5 };
@@ -66,9 +70,10 @@ public class GameManager : MonoBehaviour
         if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
         if (!enemyPurple) enemyPurple = FindObjectOfType<EnemyPurple>();
         if (!buttonManager) buttonManager = FindObjectOfType<ButtonManager>();
+        if (!backgroundMusic) backgroundMusic = FindObjectOfType<BackgroundMusic>();
         //new Vector2(-2.35f, -4.393f);
         //new Vector2(2.35f, 4.35f);
-        //highScore = PlayerPrefs.GetInt("BEST", 0);
+        highScore = PlayerPrefs.GetInt("BEST", 0);
         SetVariable();
         UpdateUI();
         MinPosition = new Vector2(-Camera.main.aspect * Camera.main.orthographicSize + 0.3f, -Camera.main.orthographicSize);
@@ -78,7 +83,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SpawningBoss());
         canvas[0].enabled = true;
         canvas[1].enabled = false;
-
+        fireCount = PlayerPrefs.GetInt("FIRE",0);
+        purpleCount = PlayerPrefs.GetInt("PURPLE",0);
+        bossCount = PlayerPrefs.GetInt("BOSS",0);
     }
     void Update()
     {
@@ -95,14 +102,11 @@ public class GameManager : MonoBehaviour
         {
             if (isStop)
             {
-
                 isStop = false;
                 canvas[1].enabled = false;
                 canvas[2].enabled = true;
                 StartCoroutine(buttonManager.CountDown());
                 return;
-
-
             }
             Time.timeScale = 0f;
             Time.fixedDeltaTime = 0f;
@@ -113,7 +117,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetVariable()
     {
-        life = 1000;
+        life = 10;
     }
 
     public void AddScore(long addScore)
@@ -276,23 +280,28 @@ public class GameManager : MonoBehaviour
         randomrange.Add(idx);
     }
 
-    // private void JudgeEnemy(){
-    //     if(isEnemyFire == true){
-    //         enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
-    //         enemy.transform.localScale = new Vector2(0.5f,0.5f);
-    //         enemy.GetComponent<CircleCollider2D>().radius = 1f;
-    //     }
-    //     // if(isEnemyPurple == true){
-    //     //     enemy.GetComponent<SpriteRenderer>().sprite = enemyFireSprite;
-    //     //     enemy.transform.localScale = new Vector2(0.75f,0.75f);
-    //     // }
-    // }
+    public void FireCount()
+    {
+        fireCount += 1;
+        PlayerPrefs.SetInt("FIRE", fireCount);
+    }
+    public void PurpleCount()
+    {
+        purpleCount += 1;
+        PlayerPrefs.SetInt("PURPLE", purpleCount);
+    }
+    public void BossCount()
+    {
+        bossCount += 1;
+        PlayerPrefs.SetInt("BOSS", bossCount);
+    }
     public void Dead()
     {
         life--;
         if (life <= 0)
         {
-            PlayerPrefs.SetInt("SCORE",(int)score);
+            buttonManager.TimerSet();
+            PlayerPrefs.SetInt("SCORE", (int)score);
             SceneManager.LoadScene("GameOver");
         }
         UpdateUI();

@@ -181,10 +181,11 @@ public class EnemyMove : MonoBehaviour
         enemyHpBar.value -= 0.084f;
     }
 
-    private void Dead()
+    protected virtual void Dead()
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
+        gameManager.FireCount();
         Despawn();
     }
     private void DevilBulletInstantiateOrSpawn()
@@ -247,7 +248,7 @@ public class EnemyMove : MonoBehaviour
     }
     protected void RandomItemDrop()
     {
-        int random = Random.Range(1, 2);
+        int random = Random.Range(1, 11);
         if (random <= 1)
         {
             ItemSpawnOrInstantiate();

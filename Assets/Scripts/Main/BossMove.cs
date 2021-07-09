@@ -376,5 +376,11 @@ public class BossMove : EnemyMove
         transform.SetParent(gameManager.PoolManager.bossPool.transform, false);
         gameObject.SetActive(false);
     }
-
+    protected override void Dead()
+    {
+        spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
+        col.enabled = false;
+        gameManager.BossCount();
+        Despawn();
+    }
 }

@@ -20,23 +20,37 @@ public class ButtonManager : MonoBehaviour
     [SerializeField]
     private Button fastButton = null;
 
+    [Header("À½¾Ç ¹öÆ°")]
+    [SerializeField]
+    private Canvas musicCanvas = null;
+    [SerializeField]
+    private SpriteState[] musicSpriteState = null;
+    [SerializeField]
+    private Sprite[] musicButtonImage = null;
+    [SerializeField]
+    private Button musicButton = null;
+
     private GameManager gameManager = null;
+    private BackgroundMusic backgroundMusic = null;
     private Animator animator = null;
     private IEnumerator coroutine = null;
     private bool isAngel = true;
+    private bool isMute = false;
     private float timer = 0f;
     void Start()
     {
         if (!gameManager) gameManager = FindObjectOfType<GameManager>();
+        if (!backgroundMusic) backgroundMusic = FindObjectOfType<BackgroundMusic>();
         //textCount.enabled = false;
         canvas[2].enabled = false;
         coroutine = CountDown();
         timer = PlayerPrefs.GetInt("TIMER", 0);
+        musicCanvas.enabled = false;
     }
     void Update()
     {
         timer += Time.deltaTime;
-        Debug.Log(PlayerPrefs.GetInt("TIMER",0));
+        //Debug.Log(PlayerPrefs.GetInt("TIMER",0));
     }
     public void OnClickStop()
     {
@@ -47,13 +61,17 @@ public class ButtonManager : MonoBehaviour
         gameManager.isStop = true;
         canvas[0].enabled = false;
         canvas[1].enabled = true;
+        musicCanvas.enabled = true;
+
     }
     public void OnClickBack()
     {
         gameManager.isStop = false;
         canvas[2].enabled = true;
         canvas[1].enabled = false;
+        musicCanvas.enabled= false;
         StartCoroutine(CountDown());
+
     }
     public IEnumerator CountDown()
     {
@@ -123,5 +141,27 @@ public class ButtonManager : MonoBehaviour
             isAngel = true;
         }
         gameManager.Player.WingSkill();
+    }
+    public void TimerSet()
+    {
+        PlayerPrefs.SetInt("TIMER", (int)timer);
+    }
+    public void OnClickMusic()
+    {
+        if (!isMute)
+        {
+            backgroundMusic.StopBackgroundMusic();
+            isMute = true;
+
+            musicButton.image.sprite = musicButtonImage[1];
+            musicButton.spriteState = musicSpriteState[1];
+        }
+        else if (isMute)
+        {
+            backgroundMusic.StartBackgroundMusic();
+            isMute = false;
+            musicButton.image.sprite = musicButtonImage[0];
+            musicButton.spriteState = musicSpriteState[0];
+        }
     }
 }

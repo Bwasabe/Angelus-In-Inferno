@@ -127,4 +127,11 @@ public class EnemyPurple : EnemyMove
         transform.SetParent(gameManager.PoolManager.enemyPurplePool.transform, false);
         gameObject.SetActive(false);
     }
+    protected override void Dead()
+    {
+        spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
+        col.enabled = false;
+        gameManager.PurpleCount();
+        Despawn();
+    }
 }
