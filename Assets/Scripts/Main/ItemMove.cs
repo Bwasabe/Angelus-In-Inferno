@@ -11,63 +11,84 @@ public class ItemMove : MonoBehaviour
     private CircleCollider2D circol = null;
     private SpriteRenderer spriteRenderer = null;
     private int index = 0;
-    
 
-    void Awake(){
-        if(!gameManager)gameManager = FindObjectOfType<GameManager>();
-        if(!enemyMove)enemyMove = FindObjectOfType<EnemyMove>();
-        if(!circol)circol = FindObjectOfType<CircleCollider2D>();
-        if(!spriteRenderer)spriteRenderer = FindObjectOfType<SpriteRenderer>();
+
+    void Awake()
+    {
+        if (!gameManager) gameManager = FindObjectOfType<GameManager>();
+        if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
+        if (!circol) circol = FindObjectOfType<CircleCollider2D>();
+        if (!spriteRenderer) spriteRenderer = FindObjectOfType<SpriteRenderer>();
     }
-    void Update(){
+    void Update()
+    {
         Limit();
     }
-    void OnEnable(){
+    void OnEnable()
+    {
         JudgeItem();
     }
-    private void Limit(){
-        if(transform.localPosition.y < gameManager.MinPosition.y - 1f){
+    private void Limit()
+    {
+        if (transform.localPosition.y < gameManager.MinPosition.y - 1f)
+        {
             Despawn();
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision){
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
 
-        if(collision.CompareTag("Player")){
+        if (collision.CompareTag("Player"))
+        {
             JudgeIndex();
             Despawn();
         }
     }
-    public void JudgeItem(){
-        index = Random.Range(0,4);
-        if(index >= 1) index =1;
-        spriteRenderer.sprite = sprite[index];
+    public void JudgeItem()
+    {
+        index = Random.Range(0, 4);
 
-            //  if(enemyMove.isFast == true){
-            //     circol.radius = 1f;
-            //     gameManager.changeCount += 1;
-            // }
-            // if(index == 2){
-            //     circol.radius = 0.16f;
-            //     gameManager.delayCount += 1;
-            // }
+        if (index >= 1) index = 1;
+        if (gameManager.Player.isAngel)
+        {
+            spriteRenderer.sprite = sprite[index];
+        }
+        else if(gameManager.Player.isDevil){
+            spriteRenderer.sprite = sprite[index+2];
+        }
+
+        //  if(enemyMove.isFast == true){
+        //     circol.radius = 1f;
+        //     gameManager.changeCount += 1;
+        // }
+        // if(index == 2){
+        //     circol.radius = 0.16f;
+        //     gameManager.delayCount += 1;
+        // }
     }
-    private void JudgeIndex(){
-        switch(index){
-            case 0:{
-                gameManager.changeCount += 1; 
-                break;
-            }
-            case 1: {
-                gameManager.delayCount += 1; 
-                break;
-            }
+    private void JudgeIndex()
+    {
+        switch (index)
+        {
+            case 0:
+                {
+                    gameManager.changeCount += 1;
+                    break;
+                }
+            case 1:
+                {
+                    gameManager.delayCount += 1;
+                    break;
+                }
         }
     }
-    public void ItemIndex(int num){
+    public void ItemIndex(int num)
+    {
         index = num;
     }
-    private void Despawn(){
+    private void Despawn()
+    {
         gameObject.SetActive(false);
-        transform.SetParent(gameManager.PoolManager.fastSkillPool.transform , false);
+        transform.SetParent(gameManager.PoolManager.fastSkillPool.transform, false);
     }
 }

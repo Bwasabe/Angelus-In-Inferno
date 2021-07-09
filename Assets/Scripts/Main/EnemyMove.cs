@@ -17,16 +17,13 @@ public class EnemyMove : MonoBehaviour
     [Header("아이템")]
     [SerializeField]
     private GameObject fastItemPrefab = null;
-    [SerializeField]
-    private Sprite fastItemSprite = null;
-    [SerializeField]
-    private GameObject changeItemPrefab = null;
-    [SerializeField]
-    private Sprite changeItemSprite = null;
+
     [Header("사운드")]
     [SerializeField]
     private AudioClip clip = null;
 
+    [SerializeField]
+    private GameObject devilBulletPrefab = null;
 
     protected GameManager gameManager = null;
     protected BossSkillBox bossSkillBox = null;
@@ -37,6 +34,7 @@ public class EnemyMove : MonoBehaviour
     protected Collider2D col = null;
     protected SpriteRenderer spriteRenderer = null;
     protected GameObject item = null;
+    protected GameObject devilBullet = null;
     private bool isRush = false;
     protected bool isDead = false;
     private bool isDamaged = false;
@@ -99,16 +97,19 @@ public class EnemyMove : MonoBehaviour
         }
         if (collision.CompareTag("Skill"))
         {
-            StartCoroutine(Damanged());
+            StartCoroutine(Damaged());
         }
         if (collision.CompareTag("Bullet"))
         {
 
             collision.GetComponent<BulletMove>().Despawn();
-
+            if ((gameManager.Player.isDSkill))
+            {
+                DevilBulletInstantiateOrSpawn();
+            }
             if (hp > 1)
             {
-                StartCoroutine(Damanged());
+                StartCoroutine(Damaged());
                 return;
             }
 
@@ -116,6 +117,20 @@ public class EnemyMove : MonoBehaviour
             gameManager.AddScore(score);
             Dead();
         }
+        else if (collision.CompareTag("DBullet"))
+        {
+
+            if (hp > 1)
+            {
+                StartCoroutine(DevilDamaged());
+                return;
+            }
+
+            isDead = true;
+            gameManager.AddScore(score);
+            Dead();
+        }
+
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -126,7 +141,7 @@ public class EnemyMove : MonoBehaviour
             if (hp > 1)
             {
                 isDamaged = true;
-                StartCoroutine(Damanged());
+                StartCoroutine(Damaged());
                 return;
             }
             isDead = true;
@@ -138,10 +153,10 @@ public class EnemyMove : MonoBehaviour
     {
         if (collision.CompareTag("Skill"))
         {
-            StopCoroutine(Damanged());
+            StopCoroutine(Damaged());
         }
     }
-    protected virtual IEnumerator Damanged()
+    private IEnumerator Damaged()
     {
         HpMinus();
         hp--;
@@ -150,6 +165,16 @@ public class EnemyMove : MonoBehaviour
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         isDamaged = false;
 
+    }
+    private IEnumerator DevilDamaged(){
+        HpMinus();
+        HpMinus();
+        hp--;
+        hp--;
+        spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 0f));
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
+        isDamaged = false;
     }
     protected virtual void HpMinus()
     {
@@ -160,9 +185,26 @@ public class EnemyMove : MonoBehaviour
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
-        audioSource.PlayOneShot(clip);
         Despawn();
     }
+    private void DevilBulletInstantiateOrSpawn()
+    {
+        if (gameManager.PoolManager.devilSkillPool.transform.childCount > 0)
+        {
+            devilBullet = gameManager.PoolManager.devilSkillPool.transform.GetChild(0).gameObject;
+            devilBullet.SetActive(true);
+            devilBullet.transform.position = new Vector2(3.55f, transform.localPosition.y);
+        }
+        else
+        {
+            devilBullet = Instantiate(devilBulletPrefab, new Vector2(3.55f, transform.localPosition.y), Quaternion.identity);
+        }
+        if (devilBullet != null)
+        {
+            devilBullet.transform.SetParent(null);
+        }
+    }
+
     private IEnumerator Rush()
     {
         speed = 0f;
@@ -205,7 +247,7 @@ public class EnemyMove : MonoBehaviour
     }
     protected void RandomItemDrop()
     {
-        int random = Random.Range(1, 11);
+        int random = Random.Range(1, 2);
         if (random <= 1)
         {
             ItemSpawnOrInstantiate();
@@ -223,23 +265,21 @@ public class EnemyMove : MonoBehaviour
         {
             item = gameManager.PoolManager.fastSkillPool.transform.GetChild(0).gameObject;
             //enemy.layer = LayerMask.NameToLayer("Enemy");
-            //JudgeItem();
             item.SetActive(true);
             item.transform.rotation = Quaternion.identity;
             item.transform.position = transform.localPosition;
         }
         else
         {
-            //JudgeItem();
             //item = Instantiate(changeItemPrefab, transform.localPosition, Quaternion.identity);
             item = Instantiate(fastItemPrefab, transform.localPosition, Quaternion.identity);
+            //JudgeItem();
 
         }
         if (item != null)
         {
             item.transform.SetParent(null);
         }
-
     }
 
     public void SetData(int idx)

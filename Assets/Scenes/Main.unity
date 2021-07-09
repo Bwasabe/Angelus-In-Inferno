@@ -356,7 +356,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: fbacf932eb1976441b63508aa97529f5, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 1f740d68249efaa41acbfee069c785bc, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 973c729bc567d654580ba5176cd9e2bb, type: 3}
     m_SelectedSprite: {fileID: 21300000, guid: 973c729bc567d654580ba5176cd9e2bb, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: fbacf932eb1976441b63508aa97529f5, type: 3}
@@ -530,6 +530,88 @@ MonoBehaviour:
   isStop: 0
   delayCount: 5
   changeCount: 2
+--- !u!1 &325724967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 325724968}
+  - component: {fileID: 325724969}
+  m_Layer: 6
+  m_Name: AngelRing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &325724968
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325724967}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 383942010}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &325724969
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325724967}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 54033c17e6247cf44b13c9d4813524be, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.64, y: 0.24}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &358682403
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,6 +767,7 @@ GameObject:
   - component: {fileID: 383942007}
   - component: {fileID: 383942011}
   - component: {fileID: 383942012}
+  - component: {fileID: 383942013}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -792,6 +875,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 377627959}
+  - {fileID: 325724968}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -810,7 +894,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3851569447695367446, guid: 089cc42341bac014ab36e86a68a89a65, type: 3}
   bulletSprite:
   - {fileID: 21300000, guid: 172859e29d27d7d45897fd32d499874f, type: 3}
-  - {fileID: 21300000, guid: 8bf3cf09e7aaafd44ac6b4a439046716, type: 3}
+  - {fileID: 21300000, guid: 2fccbc329deb35841ae4ce41db93b545, type: 3}
   bulletPosition: {fileID: 377627959}
   bulletDelay: 0.3
   bulletScale: {x: 1, y: 1}
@@ -824,6 +908,10 @@ MonoBehaviour:
   skillSprite:
   - {fileID: 21300000, guid: 8f59575a063ffa4469129a9760afcd96, type: 3}
   - {fileID: 21300000, guid: 1af22f7277d227d4b9f2d1c73c910a06, type: 3}
+  angelRing: {fileID: 325724967}
+  angelRingSprite:
+  - {fileID: 21300000, guid: 54033c17e6247cf44b13c9d4813524be, type: 3}
+  - {fileID: 21300000, guid: 16bffce4f51a00840a9909ab2f7f2aeb, type: 3}
   audioClip:
   - {fileID: 8300000, guid: 557ff2df0d22a6b4aad8b79dff426564, type: 3}
   - {fileID: 8300000, guid: d66f8f11f9d451642b5e398fd9a8f34f, type: 3}
@@ -832,6 +920,7 @@ MonoBehaviour:
   isSkill: 0
   isAngel: 1
   isDevil: 0
+  isDSkill: 0
 --- !u!82 &383942012
 AudioSource:
   m_ObjectHideFlags: 0
@@ -928,6 +1017,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &383942013
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383942006}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d091fe3fe8813d47b5903c56d1c52fe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &399371366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,9 +1436,9 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: 84daa4c047b400244921e4f3a7ac68a8, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 1505060cdf7a22349beda4c2fac6107e, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 1505060cdf7a22349beda4c2fac6107e, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 5bc11538b9d6c5c478e1288b167439b9, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: f6fa7a250c4b6a84daa0cd93ed5a4e44, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: f6fa7a250c4b6a84daa0cd93ed5a4e44, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: b75d6d8d1ed035e41be3bbef2df7a2ae, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -2138,6 +2246,7 @@ Transform:
   - {fileID: 1691082531}
   - {fileID: 68428025}
   - {fileID: 1604617816}
+  - {fileID: 1456510226}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2358,6 +2467,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1456510225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1456510226}
+  - component: {fileID: 1456510227}
+  m_Layer: 0
+  m_Name: DevilSkillPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1456510226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456510225}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1204666092}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1456510227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1456510225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce93ec7827739bd4d93be3a1b0a0e40d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1474383531
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,6 +2587,30 @@ MonoBehaviour:
   - {fileID: 717310151}
   - {fileID: 1859130794}
   textCount: {fileID: 491045778}
+  changeSkillbutton:
+  - {fileID: 21300000, guid: 338e7fabd321da1458d200b43fdb8f6e, type: 3}
+  - {fileID: 21300000, guid: fbacf932eb1976441b63508aa97529f5, type: 3}
+  - {fileID: 21300000, guid: ccd6749739b4cc74c8c2417470cddc67, type: 3}
+  - {fileID: 21300000, guid: b75d6d8d1ed035e41be3bbef2df7a2ae, type: 3}
+  spriteStates:
+  - m_HighlightedSprite: {fileID: 21300000, guid: d32ca849106f5fc4faafb9c98b9ba119, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 59570d331afa16f478072810b1c854f6, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 59570d331afa16f478072810b1c854f6, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: 338e7fabd321da1458d200b43fdb8f6e, type: 3}
+  - m_HighlightedSprite: {fileID: 21300000, guid: 1f740d68249efaa41acbfee069c785bc, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 973c729bc567d654580ba5176cd9e2bb, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 973c729bc567d654580ba5176cd9e2bb, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: fbacf932eb1976441b63508aa97529f5, type: 3}
+  - m_HighlightedSprite: {fileID: 21300000, guid: 236f0aedc4cc4d64c9f941024088e9f0, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: d2a218f0015c1ce408708fb7d6553c9b, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: d2a218f0015c1ce408708fb7d6553c9b, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: ccd6749739b4cc74c8c2417470cddc67, type: 3}
+  - m_HighlightedSprite: {fileID: 21300000, guid: 5bc11538b9d6c5c478e1288b167439b9, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: f6fa7a250c4b6a84daa0cd93ed5a4e44, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: f6fa7a250c4b6a84daa0cd93ed5a4e44, type: 3}
+    m_DisabledSprite: {fileID: 21300000, guid: b75d6d8d1ed035e41be3bbef2df7a2ae, type: 3}
+  skillButton: {fileID: 237833309}
+  fastButton: {fileID: 599159000}
 --- !u!4 &1581901319
 Transform:
   m_ObjectHideFlags: 0

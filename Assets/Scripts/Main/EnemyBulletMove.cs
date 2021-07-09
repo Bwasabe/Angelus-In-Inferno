@@ -17,9 +17,6 @@ public class EnemyBulletMove : BulletMove
             Despawn();
         }
     }
-    // private void OnDisable(){
-    //     transform.localScale = new Vector2(2,2);
-    // }
     public override void Despawn()
     {
         transform.SetParent(gameManager.PoolManager.enemyBullet.transform,false);

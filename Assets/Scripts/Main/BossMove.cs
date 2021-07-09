@@ -118,7 +118,7 @@ public class BossMove : EnemyMove
         yield return new WaitWhile(() => isSward);
         yield return new WaitWhile(() => isCharge);
         //yield return new WaitForSeconds(1.5f);
-        int random = Random.Range(3, 5);
+        int random = Random.Range(1, 5);
         switch (random)
         {
             case 1:

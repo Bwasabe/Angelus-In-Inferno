@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         if (!buttonManager) buttonManager = FindObjectOfType<ButtonManager>();
         //new Vector2(-2.35f, -4.393f);
         //new Vector2(2.35f, 4.35f);
-        highScore = PlayerPrefs.GetInt("BEST", 0);
+        //highScore = PlayerPrefs.GetInt("BEST", 0);
         SetVariable();
         UpdateUI();
         MinPosition = new Vector2(-Camera.main.aspect * Camera.main.orthographicSize + 0.3f, -Camera.main.orthographicSize);
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetVariable()
     {
-        life = 10;
+        life = 1000;
     }
 
     public void AddScore(long addScore)
@@ -292,6 +292,7 @@ public class GameManager : MonoBehaviour
         life--;
         if (life <= 0)
         {
+            PlayerPrefs.SetInt("SCORE",(int)score);
             SceneManager.LoadScene("GameOver");
         }
         UpdateUI();

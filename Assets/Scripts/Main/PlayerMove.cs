@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [Header("Ï¥ùÏïå")]
+    [Header("√—æÀ")]
     [SerializeField]
     private GameObject bulletPrefab = null;
     [SerializeField]
@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
-    [Header("?îå?†à?ù¥?ñ¥")]
+    [Header("«√∑π¿ÃæÓ")]
     [SerializeField]
     private float speed = 10f;
     [SerializeField]
@@ -26,7 +26,12 @@ public class PlayerMove : MonoBehaviour
     private Sprite[] changeSprite = null;
     [SerializeField]
     private Sprite[] skillSprite = null;
-    [Header("?ö®Í≥ºÏùå")]
+    [SerializeField]
+    private GameObject angelRing = null;
+    [SerializeField]
+    private Sprite[] angelRingSprite = null;
+
+    [Header("ªÁøÓµÂ")]
     [SerializeField]
     private AudioClip[] audioClip = null;
 
@@ -45,6 +50,7 @@ public class PlayerMove : MonoBehaviour
     public bool isSkill = false;
     public bool isAngel = true;
     public bool isDevil = false;
+    public bool isDSkill = false;
 
     IEnumerator Start()
     {
@@ -52,11 +58,12 @@ public class PlayerMove : MonoBehaviour
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!animator) animator = GetComponent<Animator>();
         if (!audioSource) audioSource = GetComponent<AudioSource>();
+        animator.enabled = false;
+        angelRing.SetActive(false);
         speed = 5f;
         yield return new WaitForSeconds(0.5f);
         speed = 10f;
         StartCoroutine(AFire());
-
     }
 
     void Update()
@@ -87,38 +94,92 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (isSkill) return;
-            if (isFastDelay) return;
-            PlayFastSkill();
+            if (isAngel)
+            {
+                if (isFastDelay) return;
+                PlayFastSkill();
+            }
+            else if(isDevil){
+                if(isDSkill)return;
+                PlayDSkill();
+            }
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(isSkill)return;
+            if(isDSkill)return;
+            if (isSkill) return;
             WingSkill();
         }
     }
-    private IEnumerator PlayFastSkill(){
+    private IEnumerator PlayFastAnimation()
+    {
+        if(isAngel){
+            angelRing.GetComponent<SpriteRenderer>().sprite = angelRingSprite[0];
+        }
+        else if(isDevil){
+            angelRing.GetComponent<SpriteRenderer>().sprite = angelRingSprite[1];
+        }
+        angelRing.SetActive(true);
+        animator.enabled = true;
+        animator.Play("Player.idle");
+        yield return new WaitForSeconds(0.6f);
+    }
+    private IEnumerator PlayFastSkill()
+    {
         audioSource.PlayOneShot(audioClip[0]);
         yield return new WaitForSeconds(0.6f);
         FastDelay();
     }
-    public void PlayFastSound(){
+    public void PlayDSkill(){
+        isDSkill = true;
+        StartCoroutine(PlayDSkillSound());
+        StartCoroutine(PlayFastAnimation());
+    }
+    private IEnumerator PlayDSkillSound(){
+        audioSource.PlayOneShot(audioClip[2]);
+        yield return new WaitForSeconds(0.2f);
+        FastDelay();
+    }
+    public void PlayFastSound()
+    {
         isFastDelay = true;
         StartCoroutine(PlayFastSkill());
+        StartCoroutine(PlayFastAnimation());
     }
-    public void FastDelay()
+    private void FastDelay()
     {
         if (gameManager.delayCount >= 1)
         {
-            StartCoroutine(UFire());
+            if(isAngel){
+                StartCoroutine(UFire());
+            }
+            else if(isDevil){
+                StartCoroutine(DFire());
+            }
             gameManager.delayCount -= 1;
         }
     }
+    private IEnumerator DFire(){
+        bulletDelay = 0.5f;
+        yield return new WaitForSeconds(5f);
+        bulletDelay = 0.3f;
+        isDSkill = false;
+        yield return new WaitForSeconds(0.6f);
+        animator.StopPlayback();
+        animator.enabled = false;
+        angelRing.SetActive(false);
+        }
     private IEnumerator UFire()
     {
         bulletDelay = 0.1f;
         yield return new WaitForSeconds(5f);
+        //angelRing.SetActive(false);
         bulletDelay = 0.3f;
         isFastDelay = false;
+        yield return new WaitForSeconds(0.6f);
+        animator.StopPlayback();
+        animator.enabled = false;
+        angelRing.SetActive(false);
     }
     public void WingSkill()
     {
@@ -126,26 +187,32 @@ public class PlayerMove : MonoBehaviour
         {
             gameManager.changeCount -= 1;
             isSkill = true;
+            
             StartCoroutine(PlayWingSound());
         }
     }
-    private IEnumerator PlayWingSound(){
+    private IEnumerator PlayWingSound()
+    {
         SkillSpawnOrInstantiate();
-        StartCoroutine(ChangePlayer());
-        if(isAngel){
+        if (isAngel)
+        {
             audioSource.PlayOneShot(audioClip[1]);
             yield return new WaitForSeconds(1f);
             audioSource.Stop();
         }
-        else if(isDevil){
+        else if (isDevil)
+        {
             audioSource.PlayOneShot(audioClip[2]);
             yield return new WaitForSeconds(0.2f);
         }
+        StartCoroutine(ChangePlayer());
     }
     private IEnumerator ChangePlayer()
     {
         if (isAngel)
         {
+            isAngel= false;
+            isDevil = true;
             spriteRenderer.sprite = changeSprite[1];
             for (int i = 2; i <= 4; i++)
             {
@@ -157,13 +224,13 @@ public class PlayerMove : MonoBehaviour
                 yield return new WaitForSeconds(1.3f);
             }
             transform.localScale = new Vector2(2, 2);
-            isAngel = false;
-            isDevil = true;
             spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
             spriteRenderer.sprite = changeSprite[2];
         }
         else if (isDevil)
         {
+            isAngel = true;
+            isDevil = false;
             spriteRenderer.sprite = changeSprite[3];
             for (int i = 4; i >= 2; i--)
             {
@@ -175,8 +242,6 @@ public class PlayerMove : MonoBehaviour
                 yield return new WaitForSeconds(1.3f);
             }
             transform.localScale = new Vector2(2, 2);
-            isAngel = true;
-            isDevil = false;
             spriteRenderer.material.SetColor("_Color", new Color(1f, 1f, 1f, 1f));
             spriteRenderer.sprite = changeSprite[0];
         }
@@ -204,19 +269,22 @@ public class PlayerMove : MonoBehaviour
             skill.transform.SetParent(null);
         }
     }
-    private void JudgeSkill(){
-        if(isAngel){
-        skill.GetComponent<SpriteRenderer>().sprite = skillSprite[0];
+    private void JudgeSkill()
+    {
+        if (isAngel)
+        {
+            skill.GetComponent<SpriteRenderer>().sprite = skillSprite[0];
         }
-        else if(isDevil){
-        skill.GetComponent<SpriteRenderer>().sprite = skillSprite[1];
+        else if (isDevil)
+        {
+            skill.GetComponent<SpriteRenderer>().sprite = skillSprite[1];
         }
     }
     private IEnumerator AFire()
     {
         while (true)
         {
-            if(isSkill) yield break;
+            if (isSkill) yield break;
             SpawnOrInstantiate();
             yield return new WaitForSeconds(bulletDelay);
         }
@@ -244,17 +312,20 @@ public class PlayerMove : MonoBehaviour
             bullet.transform.SetParent(null);
         }
     }
-    private void JudgeBullet(){
-        if(isAngel){
+    private void JudgeBullet()
+    {
+        if (isAngel)
+        {
             bullet.GetComponent<SpriteRenderer>().sprite = bulletSprite[0];
         }
-        else if(isDevil){
+        else if (isDevil)
+        {
             bullet.GetComponent<SpriteRenderer>().sprite = bulletSprite[1];
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(isSkill)return;
+        if (isSkill) return;
         if (collision.CompareTag("Enemy"))
         {
             if (isDamaged) return;
@@ -262,10 +333,12 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Damaged());
         }
     }
-    private void OnTriggerStay2D(Collider2D collision){
-        if(isSkill)return;
-        if(isDamaged)return;
-        if(collision.CompareTag("Enemy") || collision.CompareTag("Boss")){
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (isSkill) return;
+        if (isDamaged) return;
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Boss"))
+        {
             isDamaged = true;
             StartCoroutine(Damaged());
         }

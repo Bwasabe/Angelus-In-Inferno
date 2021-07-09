@@ -13,9 +13,11 @@ public class PoolManager : MonoBehaviour
     public BossBigBullet bossBigBullet { get; private set; }
     public BossPurplePool bossPurplePool { get; private set; }
     public BossSwardPool bossSwardPool { get; private set; }
+    public DevilSkillPool devilSkillPool { get; private set; }
 
     void Awake()
     {
+        if (!devilSkillPool) devilSkillPool = FindObjectOfType<DevilSkillPool>();
         if (!bulletPool) bulletPool = FindObjectOfType<BulletPool>();
         if (!enemyPool) enemyPool = FindObjectOfType<EnemyPool>();
         if (!enemyPurplePool) enemyPurplePool = FindObjectOfType<EnemyPurplePool>();
