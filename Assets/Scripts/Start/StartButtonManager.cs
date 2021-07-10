@@ -118,10 +118,13 @@ public class StartButtonManager : MonoBehaviour
     }
     public void OnClickPlayer()
     {
+        i = 0;
         chooseCanvas.enabled = false;
         lrCanvas.enabled = true;
         lrButton[0].enabled = false;
         lrButton[0].image.enabled = false;
+        lrButton[1].image.enabled = true;
+        lrButton[1].enabled = true;
         playerCanvas[0].enabled = true;
         UpdateUI();
 

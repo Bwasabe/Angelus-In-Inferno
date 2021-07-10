@@ -48,12 +48,13 @@ public class GameManager : MonoBehaviour
     private bool isExit;
     private bool isBoss;
     public bool isStop = false;
+    public bool isCount = false;
     public int delayCount = 5;
     public int changeCount = 2;
     private float score = 0f;
     private float highScore = 0f;
     private float timeScore = 0f;
-    private float purple = 2500;
+    private float purple = 00;
     private float boss = 20000f;
     private int fireCount = 0;
     private int purpleCount = 0;
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnClickEsc()
     {
+        if(isCount)return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isStop)
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetVariable()
     {
-        life = 10;
+        life = 1;
     }
 
     public void AddScore(long addScore)

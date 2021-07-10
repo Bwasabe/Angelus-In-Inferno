@@ -91,25 +91,25 @@ public class PlayerMove : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, playerPosition, Time.deltaTime * speed);
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (isSkill) return;
-            if (isAngel)
-            {
-                if (isFastDelay) return;
-                PlayFastSkill();
-            }
-            else if(isDevil){
-                if(isDSkill)return;
-                PlayDSkill();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if(isDSkill)return;
-            if (isSkill) return;
-            WingSkill();
-        }
+        // if (Input.GetKeyDown(KeyCode.W))
+        // {
+        //     if (isSkill) return;
+        //     if (isAngel)
+        //     {
+        //         if (isFastDelay) return;
+        //         PlayFastSkill();
+        //     }
+        //     else if(isDevil){
+        //         if(isDSkill)return;
+        //         PlayDSkill();
+        //     }
+        // }
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     if(isDSkill)return;
+        //     if (isSkill) return;
+        //     WingSkill();
+        // }
     }
     private IEnumerator PlayFastAnimation()
     {

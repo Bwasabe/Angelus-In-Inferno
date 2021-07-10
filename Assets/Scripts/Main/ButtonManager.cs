@@ -75,6 +75,7 @@ public class ButtonManager : MonoBehaviour
     }
     public IEnumerator CountDown()
     {
+        gameManager.isCount= true;
         for (int i = 3; i > 0; i--)
         {
             float k = 1;
@@ -90,6 +91,7 @@ public class ButtonManager : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         canvas[2].enabled = false;
         canvas[0].enabled = true;
+        gameManager.isCount= false;
 
     }
     public void OnClickReset()
@@ -108,6 +110,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void FastOnClick()
     {
+        if(gameManager.delayCount <=0)return;
         if (gameManager.Player.isSkill) return;
         if (gameManager.Player.isAngel)
         {
@@ -122,6 +125,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void WingOnClick()
     {
+        if(gameManager.changeCount <=0)return;
         if (gameManager.Player.isDSkill) return;
         if (gameManager.Player.isSkill) return;
         if (isAngel)
