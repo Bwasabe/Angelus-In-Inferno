@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     private float score = 0f;
     private float highScore = 0f;
     private float timeScore = 0f;
-    private float purple = 00;
+    private float purple = 2500;
     private float boss = 20000f;
     private int fireCount = 0;
     private int purpleCount = 0;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetVariable()
     {
-        life = 1;
+        life = 10;
     }
 
     public void AddScore(long addScore)
