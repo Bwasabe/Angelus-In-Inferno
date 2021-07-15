@@ -25,7 +25,6 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private GameObject devilBulletPrefab = null;
 
-    protected GameManager gameManager = null;
     protected BossSkillBox bossSkillBox = null;
     private PlayerMove playerMove = null;
     private SkillBox skillBox = null;
@@ -47,7 +46,6 @@ public class EnemyMove : MonoBehaviour
     {
         SetVariable();
         SetHpBar();
-        if (!gameManager) gameManager = FindObjectOfType<GameManager>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!col) col = GetComponent<Collider2D>();
         if (!skillBox) skillBox = FindObjectOfType<SkillBox>();
@@ -103,7 +101,7 @@ public class EnemyMove : MonoBehaviour
         {
 
             collision.GetComponent<BulletMove>().Despawn();
-            if ((gameManager.Player.isDSkill))
+            if ((GameManager.Instance.Player.isDSkill))
             {
                 DevilBulletInstantiateOrSpawn();
             }
@@ -114,7 +112,7 @@ public class EnemyMove : MonoBehaviour
             }
 
             isDead = true;
-            gameManager.AddScore(score);
+            GameManager.Instance.AddScore(score);
             Dead();
         }
         else if (collision.CompareTag("DBullet"))
@@ -127,7 +125,7 @@ public class EnemyMove : MonoBehaviour
             }
 
             isDead = true;
-            gameManager.AddScore(score);
+            GameManager.Instance.AddScore(score);
             Dead();
         }
 
@@ -145,7 +143,7 @@ public class EnemyMove : MonoBehaviour
                 return;
             }
             isDead = true;
-            gameManager.AddScore(score);
+            GameManager.Instance.AddScore(score);
             Dead();
         }
     }
@@ -185,14 +183,14 @@ public class EnemyMove : MonoBehaviour
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
-        gameManager.FireCount();
+        GameManager.Instance.FireCount();
         Despawn();
     }
     private void DevilBulletInstantiateOrSpawn()
     {
-        if (gameManager.PoolManager.devilSkillPool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.devilSkillPool.transform.childCount > 0)
         {
-            devilBullet = gameManager.PoolManager.devilSkillPool.transform.GetChild(0).gameObject;
+            devilBullet = GameManager.Instance.PoolManager.devilSkillPool.transform.GetChild(0).gameObject;
             devilBullet.SetActive(true);
             devilBullet.transform.position = new Vector2(3.55f, transform.localPosition.y);
         }
@@ -224,12 +222,12 @@ public class EnemyMove : MonoBehaviour
     }
     private void ReSpawn()
     {
-        if (transform.localPosition.y < gameManager.MinPosition.y)
+        if (transform.localPosition.y < GameManager.Instance.MinPosition.y)
         {
             isRush = false;
             spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
             speed = 5f;
-            transform.localPosition = new Vector2(transform.localPosition.x, gameManager.MaxPositon.y + 2f);
+            transform.localPosition = new Vector2(transform.localPosition.x, GameManager.Instance.MaxPositon.y + 2f);
         }
     }
     protected virtual void Despawn()
@@ -242,9 +240,9 @@ public class EnemyMove : MonoBehaviour
         SetVariable();
         enemyHpBar.value = 1f;
         col.enabled = true;
-        transform.SetParent(gameManager.PoolManager.enemyPool.transform, false);
+        transform.SetParent(GameManager.Instance.PoolManager.enemyPool.transform, false);
         gameObject.SetActive(false);
-        gameManager.SetEnemyPositionDead(enemyIdx);
+        GameManager.Instance.SetEnemyPositionDead(enemyIdx);
     }
     protected void RandomItemDrop()
     {
@@ -262,9 +260,9 @@ public class EnemyMove : MonoBehaviour
 
     protected void ItemSpawnOrInstantiate()
     {
-        if (gameManager.PoolManager.fastSkillPool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.fastSkillPool.transform.childCount > 0)
         {
-            item = gameManager.PoolManager.fastSkillPool.transform.GetChild(0).gameObject;
+            item = GameManager.Instance.PoolManager.fastSkillPool.transform.GetChild(0).gameObject;
             //enemy.layer = LayerMask.NameToLayer("Enemy");
             item.SetActive(true);
             item.transform.rotation = Quaternion.identity;

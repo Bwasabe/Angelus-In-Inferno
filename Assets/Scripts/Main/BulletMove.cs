@@ -5,10 +5,8 @@ public class BulletMove : MonoBehaviour
     [SerializeField]
     protected float speed = 10f;
 
-    protected GameManager gameManager = null;
     void Awake()
     {
-        if(!gameManager)gameManager = FindObjectOfType<GameManager>();
         SetVariable();
     }
 
@@ -21,12 +19,12 @@ public class BulletMove : MonoBehaviour
         speed = 10f;
     }
     protected virtual void Limit(){
-        if(transform.localPosition.y > gameManager.MaxPositon.y+0.5f){
+        if(transform.localPosition.y > GameManager.Instance.MaxPositon.y+0.5f){
             Despawn();
         }
     }
     public virtual void Despawn(){
-        transform.SetParent(gameManager.PoolManager.bulletPool.transform,false);
+        transform.SetParent(GameManager.Instance.PoolManager.bulletPool.transform,false);
         gameObject.SetActive(false);
     }
 }

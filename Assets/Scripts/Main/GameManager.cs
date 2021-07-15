@@ -5,8 +5,20 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
+    // private static GameManager instance = null;
+    // public static GameManager Instance{
+    //     get{
+    //         if(!instance){
+    //             instance = FindObjectOfType<GameManager>();
+    //             if(!instance){
+    //                 instance = new GameObject("GameManager").AddComponent<GameManager>();
+    //             }
+    //         }
+    //         return instance;
+    //     }
+    // }
     public Vector2 MinPosition { get; private set; }
     public Vector2 MaxPositon { get; private set; }
     public PoolManager PoolManager { get; private set; }

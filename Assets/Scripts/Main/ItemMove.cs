@@ -6,7 +6,6 @@ public class ItemMove : MonoBehaviour
 {
     [SerializeField]
     private Sprite[] sprite;
-    private GameManager gameManager = null;
     private EnemyMove enemyMove = null;
     private CircleCollider2D circol = null;
     private SpriteRenderer spriteRenderer = null;
@@ -15,7 +14,6 @@ public class ItemMove : MonoBehaviour
 
     void Awake()
     {
-        if (!gameManager) gameManager = FindObjectOfType<GameManager>();
         if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
         if (!circol) circol = FindObjectOfType<CircleCollider2D>();
         if (!spriteRenderer) spriteRenderer = FindObjectOfType<SpriteRenderer>();
@@ -30,7 +28,7 @@ public class ItemMove : MonoBehaviour
     }
     private void Limit()
     {
-        if (transform.localPosition.y < gameManager.MinPosition.y - 1f)
+        if (transform.localPosition.y < GameManager.Instance.MinPosition.y - 1f)
         {
             Despawn();
         }
@@ -49,21 +47,21 @@ public class ItemMove : MonoBehaviour
         index = Random.Range(0, 4);
 
         if (index >= 1) index = 1;
-        if (gameManager.Player.isAngel)
+        if (GameManager.Instance.Player.isAngel)
         {
             spriteRenderer.sprite = sprite[index];
         }
-        else if(gameManager.Player.isDevil){
+        else if(GameManager.Instance.Player.isDevil){
             spriteRenderer.sprite = sprite[index+2];
         }
 
         //  if(enemyMove.isFast == true){
         //     circol.radius = 1f;
-        //     gameManager.changeCount += 1;
+        //     GameManager.Instance.changeCount += 1;
         // }
         // if(index == 2){
         //     circol.radius = 0.16f;
-        //     gameManager.delayCount += 1;
+        //     GameManager.Instance.delayCount += 1;
         // }
     }
     private void JudgeIndex()
@@ -72,12 +70,12 @@ public class ItemMove : MonoBehaviour
         {
             case 0:
                 {
-                    gameManager.changeCount += 1;
+                    GameManager.Instance.changeCount += 1;
                     break;
                 }
             case 1:
                 {
-                    gameManager.delayCount += 1;
+                    GameManager.Instance.delayCount += 1;
                     break;
                 }
         }
@@ -89,6 +87,6 @@ public class ItemMove : MonoBehaviour
     private void Despawn()
     {
         gameObject.SetActive(false);
-        transform.SetParent(gameManager.PoolManager.fastSkillPool.transform, false);
+        transform.SetParent(GameManager.Instance.PoolManager.fastSkillPool.transform, false);
     }
 }

@@ -8,7 +8,7 @@ public class BossFastBullet : EnemyBulletMove
     }
     public override void Despawn()
     {
-        transform.SetParent(gameManager.PoolManager.bossBigBullet.transform,false);
+        transform.SetParent(GameManager.Instance.PoolManager.bossBigBullet.transform,false);
         gameObject.SetActive(false);
     }
 }

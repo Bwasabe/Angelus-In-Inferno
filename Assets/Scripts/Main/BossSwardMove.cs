@@ -11,7 +11,7 @@ public class BossSwardMove : BulletMove
     }
     protected override void Limit()
     {
-        if(transform.localPosition.y < gameManager.MinPosition.y - 4f){
+        if(transform.localPosition.y < GameManager.Instance.MinPosition.y - 4f){
             Despawn();
         }
     }
@@ -21,7 +21,7 @@ public class BossSwardMove : BulletMove
     }
     public override void Despawn()
     {
-        transform.SetParent(gameManager.PoolManager.bossSwardPool.transform,false);
+        transform.SetParent(GameManager.Instance.PoolManager.bossSwardPool.transform,false);
         gameObject.SetActive(false);
     }
 }

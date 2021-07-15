@@ -37,7 +37,6 @@ public class PlayerMove : MonoBehaviour
 
     private Vector2 playerPosition = Vector2.zero;
 
-    private GameManager gameManager = null;
     private AudioSource audioSource = null;
     private SpriteRenderer spriteRenderer = null;
     private Animator animator = null;
@@ -54,7 +53,6 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Start()
     {
-        if (!gameManager) gameManager = FindObjectOfType<GameManager>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!animator) animator = GetComponent<Animator>();
         if (!audioSource) audioSource = GetComponent<AudioSource>();
@@ -86,8 +84,8 @@ public class PlayerMove : MonoBehaviour
         //}
 
         playerPosition = mousePosition + distance;
-        playerPosition.x = Mathf.Clamp(playerPosition.x, gameManager.MinPosition.x, gameManager.MaxPositon.x);
-        playerPosition.y = Mathf.Clamp(playerPosition.y, gameManager.MinPosition.y, gameManager.MaxPositon.y);
+        playerPosition.x = Mathf.Clamp(playerPosition.x, GameManager.Instance.MinPosition.x, GameManager.Instance.MaxPositon.x);
+        playerPosition.y = Mathf.Clamp(playerPosition.y, GameManager.Instance.MinPosition.y, GameManager.Instance.MaxPositon.y);
 
         transform.position = Vector2.MoveTowards(transform.position, playerPosition, Time.deltaTime * speed);
 
@@ -148,7 +146,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void FastDelay()
     {
-        if (gameManager.delayCount >= 1)
+        if (GameManager.Instance.delayCount >= 1)
         {
             if(isAngel){
                 StartCoroutine(UFire());
@@ -156,7 +154,7 @@ public class PlayerMove : MonoBehaviour
             else if(isDevil){
                 StartCoroutine(DFire());
             }
-            gameManager.delayCount -= 1;
+            GameManager.Instance.delayCount -= 1;
         }
     }
     private IEnumerator DFire(){
@@ -183,9 +181,9 @@ public class PlayerMove : MonoBehaviour
     }
     public void WingSkill()
     {
-        if (gameManager.changeCount >= 1)
+        if (GameManager.Instance.changeCount >= 1)
         {
-            gameManager.changeCount -= 1;
+            GameManager.Instance.changeCount -= 1;
             isSkill = true;
             
             StartCoroutine(PlayWingSound());
@@ -250,9 +248,9 @@ public class PlayerMove : MonoBehaviour
     }
     private void SkillSpawnOrInstantiate()
     {
-        if (gameManager.PoolManager.skillPool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.skillPool.transform.childCount > 0)
         {
-            skill = gameManager.PoolManager.skillPool.transform.GetChild(0).gameObject;
+            skill = GameManager.Instance.PoolManager.skillPool.transform.GetChild(0).gameObject;
             JudgeSkill();
             skill.SetActive(true);
             skill.transform.rotation = Quaternion.identity;
@@ -291,9 +289,9 @@ public class PlayerMove : MonoBehaviour
     }
     private void SpawnOrInstantiate()
     {
-        if (gameManager.PoolManager.bulletPool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.bulletPool.transform.childCount > 0)
         {
-            bullet = gameManager.PoolManager.bulletPool.transform.GetChild(0).gameObject;
+            bullet = GameManager.Instance.PoolManager.bulletPool.transform.GetChild(0).gameObject;
             bullet.layer = LayerMask.NameToLayer("Player");
             JudgeBullet();
             bullet.SetActive(true);
@@ -345,7 +343,7 @@ public class PlayerMove : MonoBehaviour
     }
     private IEnumerator Damaged()
     {
-        gameManager.Dead();
+        GameManager.Instance.Dead();
         for (int i = 0; i < 5; i++)
         {
             spriteRenderer.enabled = false;

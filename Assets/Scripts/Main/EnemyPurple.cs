@@ -52,11 +52,11 @@ public class EnemyPurple : EnemyMove
 
     }
     private void JudgeLR(){
-        if(transform.localPosition.x<gameManager.MinPosition.x +0.3f){
+        if(transform.localPosition.x<GameManager.Instance.MinPosition.x +0.3f){
             isLeft = false;
             isRight = true;
         }
-        if(transform.localPosition.x>gameManager.MaxPositon.x -0.3f){
+        if(transform.localPosition.x>GameManager.Instance.MaxPositon.x -0.3f){
             isRight = false;
             isLeft = true;
         }
@@ -79,9 +79,9 @@ public class EnemyPurple : EnemyMove
     private void SpawnOrInstantiate()
     {
 
-        if (gameManager.PoolManager.enemyBullet.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.enemyBullet.transform.childCount > 0)
         {
-            enemyBullet = gameManager.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
+            enemyBullet = GameManager.Instance.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
             enemyBullet.SetActive(true);
             enemyBullet.transform.localScale = new Vector2(2, 2);
             enemyBullet.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
@@ -124,14 +124,14 @@ public class EnemyPurple : EnemyMove
         SetVariable();
         enemyHpBar.value = 1f;
         col.enabled = true;
-        transform.SetParent(gameManager.PoolManager.enemyPurplePool.transform, false);
+        transform.SetParent(GameManager.Instance.PoolManager.enemyPurplePool.transform, false);
         gameObject.SetActive(false);
     }
     protected override void Dead()
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
-        gameManager.PurpleCount();
+        GameManager.Instance.PurpleCount();
         Despawn();
     }
 }

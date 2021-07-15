@@ -46,7 +46,7 @@ public class BossMove : EnemyMove
         if (!arrowMove) arrowMove = FindObjectOfType<ArrowMove>();
         if (!animator) animator = GetComponent<Animator>();
         animator.enabled = false;
-        gameManager.StopSpawning();
+        GameManager.Instance.StopSpawning();
         speed = 3f;
         StartCoroutine(FillHp());
         yield return new WaitForSeconds(1.4f);
@@ -58,19 +58,19 @@ public class BossMove : EnemyMove
 
     // private void OnEnable()
     // {
-    //     //gameManager.StopSpawning();
+    //     //GameManager.Instance.StopSpawning();
     // }
     private void OnDisable()
     {
-        gameManager.FalseBoss();
-        //gameManager.Startspawning();
+        GameManager.Instance.FalseBoss();
+        //GameManager.Instance.Startspawning();
     }
 
     protected override void Update()
     {
         if (bIsRush)
         {
-            transform.localPosition = new Vector2(transform.localPosition.x, gameManager.Player.transform.localPosition.y);
+            transform.localPosition = new Vector2(transform.localPosition.x, GameManager.Instance.Player.transform.localPosition.y);
         }
         else if (isLeft)
         {
@@ -147,9 +147,9 @@ public class BossMove : EnemyMove
     private void SpawnOrInstantiate()
     {
 
-        if (gameManager.PoolManager.enemyBullet.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.enemyBullet.transform.childCount > 0)
         {
-            bossBullet = gameManager.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
+            bossBullet = GameManager.Instance.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
             JudgeBullet();
             bossBullet.transform.SetParent(transform, false);
             bossBullet.transform.position = transform.position;
@@ -173,9 +173,9 @@ public class BossMove : EnemyMove
     private void FastSpawnOrInstantiate()
     {
 
-        if (gameManager.PoolManager.bossBigBullet.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.bossBigBullet.transform.childCount > 0)
         {
-            bossBigBullet = gameManager.PoolManager.bossBigBullet.transform.GetChild(0).gameObject;
+            bossBigBullet = GameManager.Instance.PoolManager.bossBigBullet.transform.GetChild(0).gameObject;
             bossBigBullet.transform.localScale = new Vector2(4, 4);
             //JudgeBullet();
             bossBigBullet.transform.SetParent(transform, false);
@@ -200,9 +200,9 @@ public class BossMove : EnemyMove
     {
 
 
-        if (gameManager.PoolManager.bossPurplePool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.bossPurplePool.transform.childCount > 0)
         {
-            bossBigBullet = gameManager.PoolManager.bossPurplePool.transform.GetChild(0).gameObject;
+            bossBigBullet = GameManager.Instance.PoolManager.bossPurplePool.transform.GetChild(0).gameObject;
             //bossBigBullet.transform.localScale = new Vector2(4, 4);
             //JudgeBullet();
             bossBigBullet.transform.SetParent(transform, false);
@@ -227,9 +227,9 @@ public class BossMove : EnemyMove
     {
 
 
-        if (gameManager.PoolManager.bossSwardPool.transform.childCount > 0)
+        if (GameManager.Instance.PoolManager.bossSwardPool.transform.childCount > 0)
         {
-            bossSward = gameManager.PoolManager.bossSwardPool.transform.GetChild(0).gameObject;
+            bossSward = GameManager.Instance.PoolManager.bossSwardPool.transform.GetChild(0).gameObject;
             bossSward.transform.SetParent(transform, false);
             bossSward.transform.position = new Vector2(swardX, 6f);
             bossSward.SetActive(true);
@@ -294,7 +294,7 @@ public class BossMove : EnemyMove
     }
     private void BigFire()
     {
-        diff = new Vector2((gameManager.Player.transform.position - transform.position).x, (gameManager.Player.transform.position - transform.position).y);
+        diff = new Vector2((GameManager.Instance.Player.transform.position - transform.position).x, (GameManager.Instance.Player.transform.position - transform.position).y);
         bRotationZ = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
     }
     private IEnumerator BossPurpleFire()
@@ -372,15 +372,15 @@ public class BossMove : EnemyMove
     }
     protected override void Despawn()
     {
-        gameManager.FalseBoss();
-        transform.SetParent(gameManager.PoolManager.bossPool.transform, false);
+        GameManager.Instance.FalseBoss();
+        transform.SetParent(GameManager.Instance.PoolManager.bossPool.transform, false);
         gameObject.SetActive(false);
     }
     protected override void Dead()
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
-        gameManager.BossCount();
+        GameManager.Instance.BossCount();
         Despawn();
     }
 }
