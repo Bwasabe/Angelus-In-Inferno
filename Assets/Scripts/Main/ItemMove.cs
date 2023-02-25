@@ -11,9 +11,10 @@ public class ItemMove : MonoBehaviour
     private SpriteRenderer spriteRenderer = null;
     private int index = 0;
 
-
+    private GameManager _gameManager;
     void Awake()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         if (!enemyMove) enemyMove = FindObjectOfType<EnemyMove>();
         if (!circol) circol = FindObjectOfType<CircleCollider2D>();
         if (!spriteRenderer) spriteRenderer = FindObjectOfType<SpriteRenderer>();
@@ -28,7 +29,7 @@ public class ItemMove : MonoBehaviour
     }
     private void Limit()
     {
-        if (transform.localPosition.y < GameManager.Instance.MinPosition.y - 1f)
+        if (transform.localPosition.y < _gameManager.MinPosition.y - 1f)
         {
             Despawn();
         }
@@ -47,21 +48,21 @@ public class ItemMove : MonoBehaviour
         index = Random.Range(0, 4);
 
         if (index >= 1) index = 1;
-        if (GameManager.Instance.Player.isAngel)
+        if (_gameManager.Player.isAngel)
         {
             spriteRenderer.sprite = sprite[index];
         }
-        else if(GameManager.Instance.Player.isDevil){
+        else if(_gameManager.Player.isDevil){
             spriteRenderer.sprite = sprite[index+2];
         }
 
         //  if(enemyMove.isFast == true){
         //     circol.radius = 1f;
-        //     GameManager.Instance.changeCount += 1;
+        //     _gameManager.changeCount += 1;
         // }
         // if(index == 2){
         //     circol.radius = 0.16f;
-        //     GameManager.Instance.delayCount += 1;
+        //     _gameManager.delayCount += 1;
         // }
     }
     private void JudgeIndex()
@@ -70,12 +71,12 @@ public class ItemMove : MonoBehaviour
         {
             case 0:
                 {
-                    GameManager.Instance.changeCount += 1;
+                    _gameManager.changeCount += 1;
                     break;
                 }
             case 1:
                 {
-                    GameManager.Instance.delayCount += 1;
+                    _gameManager.delayCount += 1;
                     break;
                 }
         }
@@ -87,6 +88,6 @@ public class ItemMove : MonoBehaviour
     private void Despawn()
     {
         gameObject.SetActive(false);
-        transform.SetParent(GameManager.Instance.PoolManager.fastSkillPool.transform, false);
+        transform.SetParent(_gameManager.PoolManager.fastSkillPool.transform, false);
     }
 }

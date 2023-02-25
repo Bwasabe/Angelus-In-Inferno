@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [Header("ÃÑ¾Ë")]
+    [Header("ï¿½Ñ¾ï¿½")]
     [SerializeField]
     private GameObject bulletPrefab = null;
     [SerializeField]
@@ -17,7 +17,7 @@ public class PlayerMove : MonoBehaviour
 
 
 
-    [Header("ÇÃ·¹ÀÌ¾î")]
+    [Header("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½")]
     [SerializeField]
     private float speed = 10f;
     [SerializeField]
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Sprite[] angelRingSprite = null;
 
-    [Header("»ç¿îµå")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField]
     private AudioClip[] audioClip = null;
 
@@ -51,8 +51,11 @@ public class PlayerMove : MonoBehaviour
     public bool isDevil = false;
     public bool isDSkill = false;
 
+    private GameManager _gameManager;
+
     IEnumerator Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (!animator) animator = GetComponent<Animator>();
         if (!audioSource) audioSource = GetComponent<AudioSource>();
@@ -80,12 +83,12 @@ public class PlayerMove : MonoBehaviour
 
         //if(Input.GetTouch(0).phase == TouchPhase.Ended)
         //{
-        //    dis = (Vector2)transform.position - (mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(1).position));          //ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!ì²œìŠ¹?˜„??? ?‹ ?´?•¼!
+        //    dis = (Vector2)transform.position - (mousePos = Camera.main.ScreenToWorldPoint(Input.GetTouch(1).position));          //ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!ì²œìŠ¹?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½!
         //}
 
         playerPosition = mousePosition + distance;
-        playerPosition.x = Mathf.Clamp(playerPosition.x, GameManager.Instance.MinPosition.x, GameManager.Instance.MaxPositon.x);
-        playerPosition.y = Mathf.Clamp(playerPosition.y, GameManager.Instance.MinPosition.y, GameManager.Instance.MaxPositon.y);
+        playerPosition.x = Mathf.Clamp(playerPosition.x, _gameManager.MinPosition.x, _gameManager.MaxPositon.x);
+        playerPosition.y = Mathf.Clamp(playerPosition.y, _gameManager.MinPosition.y, _gameManager.MaxPositon.y);
 
         transform.position = Vector2.MoveTowards(transform.position, playerPosition, Time.deltaTime * speed);
 
@@ -146,7 +149,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void FastDelay()
     {
-        if (GameManager.Instance.delayCount >= 1)
+        if (_gameManager.delayCount >= 1)
         {
             if(isAngel){
                 StartCoroutine(UFire());
@@ -154,7 +157,7 @@ public class PlayerMove : MonoBehaviour
             else if(isDevil){
                 StartCoroutine(DFire());
             }
-            GameManager.Instance.delayCount -= 1;
+            _gameManager.delayCount -= 1;
         }
     }
     private IEnumerator DFire(){
@@ -181,9 +184,9 @@ public class PlayerMove : MonoBehaviour
     }
     public void WingSkill()
     {
-        if (GameManager.Instance.changeCount >= 1)
+        if (_gameManager.changeCount >= 1)
         {
-            GameManager.Instance.changeCount -= 1;
+            _gameManager.changeCount -= 1;
             isSkill = true;
             
             StartCoroutine(PlayWingSound());
@@ -248,9 +251,9 @@ public class PlayerMove : MonoBehaviour
     }
     private void SkillSpawnOrInstantiate()
     {
-        if (GameManager.Instance.PoolManager.skillPool.transform.childCount > 0)
+        if (_gameManager.PoolManager.skillPool.transform.childCount > 0)
         {
-            skill = GameManager.Instance.PoolManager.skillPool.transform.GetChild(0).gameObject;
+            skill = _gameManager.PoolManager.skillPool.transform.GetChild(0).gameObject;
             JudgeSkill();
             skill.SetActive(true);
             skill.transform.rotation = Quaternion.identity;
@@ -289,9 +292,9 @@ public class PlayerMove : MonoBehaviour
     }
     private void SpawnOrInstantiate()
     {
-        if (GameManager.Instance.PoolManager.bulletPool.transform.childCount > 0)
+        if (_gameManager.PoolManager.bulletPool.transform.childCount > 0)
         {
-            bullet = GameManager.Instance.PoolManager.bulletPool.transform.GetChild(0).gameObject;
+            bullet = _gameManager.PoolManager.bulletPool.transform.GetChild(0).gameObject;
             bullet.layer = LayerMask.NameToLayer("Player");
             JudgeBullet();
             bullet.SetActive(true);
@@ -343,7 +346,7 @@ public class PlayerMove : MonoBehaviour
     }
     private IEnumerator Damaged()
     {
-        GameManager.Instance.Dead();
+        _gameManager.Dead();
         for (int i = 0; i < 5; i++)
         {
             spriteRenderer.enabled = false;

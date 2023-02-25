@@ -528,6 +528,7 @@ MonoBehaviour:
   - {fileID: 1416144938}
   - {fileID: 1689281992}
   isStop: 0
+  isCount: 0
   delayCount: 5
   changeCount: 2
 --- !u!1 &325724967

@@ -5,27 +5,16 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager : MonoBehaviour
 {
-    // private static GameManager instance = null;
-    // public static GameManager Instance{
-    //     get{
-    //         if(!instance){
-    //             instance = FindObjectOfType<GameManager>();
-    //             if(!instance){
-    //                 instance = new GameObject("GameManager").AddComponent<GameManager>();
-    //             }
-    //         }
-    //         return instance;
-    //     }
-    // }
+
     public Vector2 MinPosition { get; private set; }
     public Vector2 MaxPositon { get; private set; }
     public PoolManager PoolManager { get; private set; }
     public PlayerMove Player { get; private set; }
     public BackgroundMusic backgroundMusic {get; private set;}
 
-    [Header("ÅØ½ºÆ®")]
+    [Header("ï¿½Ø½ï¿½Æ®")]
     [SerializeField]
     private Text textScore = null;
     [SerializeField]
@@ -37,7 +26,7 @@ public class GameManager : MonoSingleton<GameManager>
     [SerializeField]
     private Text textChangeCount = null;
 
-    [Header("Àû")]
+    [Header("ï¿½ï¿½")]
     [SerializeField]
     private GameObject enemyFirePrefab = null;
     [SerializeField]

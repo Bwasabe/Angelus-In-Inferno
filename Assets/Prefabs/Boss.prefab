@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bbcb328a8883bc4085e0c4ffef4b002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
+  score: -284
   hp: 0
   speed: 7
   enemyHpBar: {fileID: 210457954533124612}

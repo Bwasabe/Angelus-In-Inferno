@@ -20,7 +20,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField]
     private Button fastButton = null;
 
-    [Header("À½¾Ç ¹öÆ°")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°")]
     [SerializeField]
     private Canvas musicCanvas = null;
     [SerializeField]
@@ -36,8 +36,11 @@ public class ButtonManager : MonoBehaviour
     private bool isAngel = true;
     private bool isMute = false;
     private float timer = 0f;
+
+    private GameManager _gameManager;
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         if (!backgroundMusic) backgroundMusic = FindObjectOfType<BackgroundMusic>();
         //textCount.enabled = false;
         canvas[2].enabled = false;
@@ -56,7 +59,7 @@ public class ButtonManager : MonoBehaviour
         Time.timeScale = 0f;
         Time.fixedDeltaTime = 0f;
         textCount.text = string.Format("3");
-        GameManager.Instance.isStop = true;
+        _gameManager.isStop = true;
         canvas[0].enabled = false;
         canvas[1].enabled = true;
         musicCanvas.enabled = true;
@@ -64,7 +67,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void OnClickBack()
     {
-        GameManager.Instance.isStop = false;
+        _gameManager.isStop = false;
         canvas[2].enabled = true;
         canvas[1].enabled = false;
         musicCanvas.enabled= false;
@@ -73,7 +76,7 @@ public class ButtonManager : MonoBehaviour
     }
     public IEnumerator CountDown()
     {
-        GameManager.Instance.isCount= true;
+        _gameManager.isCount= true;
         for (int i = 3; i > 0; i--)
         {
             float k = 1;
@@ -89,7 +92,7 @@ public class ButtonManager : MonoBehaviour
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
         canvas[2].enabled = false;
         canvas[0].enabled = true;
-        GameManager.Instance.isCount= false;
+        _gameManager.isCount= false;
 
     }
     public void OnClickReset()
@@ -108,24 +111,24 @@ public class ButtonManager : MonoBehaviour
     }
     public void FastOnClick()
     {
-        if(GameManager.Instance.delayCount <=0)return;
-        if (GameManager.Instance.Player.isSkill) return;
-        if (GameManager.Instance.Player.isAngel)
+        if(_gameManager.delayCount <=0)return;
+        if (_gameManager.Player.isSkill) return;
+        if (_gameManager.Player.isAngel)
         {
-            if (GameManager.Instance.Player.isFastDelay) return;
-            GameManager.Instance.Player.PlayFastSound();
+            if (_gameManager.Player.isFastDelay) return;
+            _gameManager.Player.PlayFastSound();
         }
-        else if (GameManager.Instance.Player.isDevil)
+        else if (_gameManager.Player.isDevil)
         {
-            if (GameManager.Instance.Player.isDSkill) return;
-            GameManager.Instance.Player.PlayDSkill();
+            if (_gameManager.Player.isDSkill) return;
+            _gameManager.Player.PlayDSkill();
         }
     }
     public void WingOnClick()
     {
-        if(GameManager.Instance.changeCount <=0)return;
-        if (GameManager.Instance.Player.isDSkill) return;
-        if (GameManager.Instance.Player.isSkill) return;
+        if(_gameManager.changeCount <=0)return;
+        if (_gameManager.Player.isDSkill) return;
+        if (_gameManager.Player.isSkill) return;
         if (isAngel)
         {
             skillButton.spriteState = spriteStates[0];
@@ -142,7 +145,7 @@ public class ButtonManager : MonoBehaviour
             fastButton.image.sprite = changeSkillbutton[3];
             isAngel = true;
         }
-        GameManager.Instance.Player.WingSkill();
+        _gameManager.Player.WingSkill();
     }
     public void TimerSet()
     {

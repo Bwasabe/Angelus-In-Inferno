@@ -14,11 +14,11 @@ public class EnemyMove : MonoBehaviour
     protected float speed = 7f;
     [SerializeField]
     protected Slider enemyHpBar = null;
-    [Header("¾ÆÀÌÅÛ")]
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField]
     private GameObject fastItemPrefab = null;
 
-    [Header("»ç¿îµå")]
+    [Header("ï¿½ï¿½ï¿½ï¿½")]
     [SerializeField]
     private AudioClip clip = null;
 
@@ -39,6 +39,7 @@ public class EnemyMove : MonoBehaviour
     private bool isDamaged = false;
     protected int random = 0;
 
+    protected GameManager _gameManager;
 
 
     private int enemyIdx;
@@ -52,6 +53,8 @@ public class EnemyMove : MonoBehaviour
         if (!playerMove) playerMove = FindObjectOfType<PlayerMove>();
         if (!audioSource) audioSource = GetComponent<AudioSource>();
         if (!bossSkillBox) bossSkillBox = FindObjectOfType<BossSkillBox>();
+
+        _gameManager = FindObjectOfType<GameManager>();
         //skillBox.gameObject.SetActive(false);
 
     }
@@ -101,7 +104,7 @@ public class EnemyMove : MonoBehaviour
         {
 
             collision.GetComponent<BulletMove>().Despawn();
-            if ((GameManager.Instance.Player.isDSkill))
+            if ((_gameManager.Player.isDSkill))
             {
                 DevilBulletInstantiateOrSpawn();
             }
@@ -112,7 +115,7 @@ public class EnemyMove : MonoBehaviour
             }
 
             isDead = true;
-            GameManager.Instance.AddScore(score);
+            _gameManager.AddScore(score);
             Dead();
         }
         else if (collision.CompareTag("DBullet"))
@@ -125,7 +128,7 @@ public class EnemyMove : MonoBehaviour
             }
 
             isDead = true;
-            GameManager.Instance.AddScore(score);
+            _gameManager.AddScore(score);
             Dead();
         }
 
@@ -143,7 +146,7 @@ public class EnemyMove : MonoBehaviour
                 return;
             }
             isDead = true;
-            GameManager.Instance.AddScore(score);
+            _gameManager.AddScore(score);
             Dead();
         }
     }
@@ -183,14 +186,14 @@ public class EnemyMove : MonoBehaviour
     {
         spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
         col.enabled = false;
-        GameManager.Instance.FireCount();
+        _gameManager.FireCount();
         Despawn();
     }
     private void DevilBulletInstantiateOrSpawn()
     {
-        if (GameManager.Instance.PoolManager.devilSkillPool.transform.childCount > 0)
+        if (_gameManager.PoolManager.devilSkillPool.transform.childCount > 0)
         {
-            devilBullet = GameManager.Instance.PoolManager.devilSkillPool.transform.GetChild(0).gameObject;
+            devilBullet = _gameManager.PoolManager.devilSkillPool.transform.GetChild(0).gameObject;
             devilBullet.SetActive(true);
             devilBullet.transform.position = new Vector2(3.55f, transform.localPosition.y);
         }
@@ -222,12 +225,13 @@ public class EnemyMove : MonoBehaviour
     }
     private void ReSpawn()
     {
-        if (transform.localPosition.y < GameManager.Instance.MinPosition.y)
+        if(!_gameManager)Debug.Log("ï¿½ï¿½ï¿½ï¿½!");
+        if (transform.localPosition.y < _gameManager.MinPosition.y)
         {
             isRush = false;
             spriteRenderer.material.SetColor("_Color", new Color(0f, 0f, 0f, 0f));
             speed = 5f;
-            transform.localPosition = new Vector2(transform.localPosition.x, GameManager.Instance.MaxPositon.y + 2f);
+            transform.localPosition = new Vector2(transform.localPosition.x, _gameManager.MaxPositon.y + 2f);
         }
     }
     protected virtual void Despawn()
@@ -240,9 +244,9 @@ public class EnemyMove : MonoBehaviour
         SetVariable();
         enemyHpBar.value = 1f;
         col.enabled = true;
-        transform.SetParent(GameManager.Instance.PoolManager.enemyPool.transform, false);
+        transform.SetParent(_gameManager.PoolManager.enemyPool.transform, false);
         gameObject.SetActive(false);
-        GameManager.Instance.SetEnemyPositionDead(enemyIdx);
+        _gameManager.SetEnemyPositionDead(enemyIdx);
     }
     protected void RandomItemDrop()
     {
@@ -260,9 +264,9 @@ public class EnemyMove : MonoBehaviour
 
     protected void ItemSpawnOrInstantiate()
     {
-        if (GameManager.Instance.PoolManager.fastSkillPool.transform.childCount > 0)
+        if (_gameManager.PoolManager.fastSkillPool.transform.childCount > 0)
         {
-            item = GameManager.Instance.PoolManager.fastSkillPool.transform.GetChild(0).gameObject;
+            item = _gameManager.PoolManager.fastSkillPool.transform.GetChild(0).gameObject;
             //enemy.layer = LayerMask.NameToLayer("Enemy");
             item.SetActive(true);
             item.transform.rotation = Quaternion.identity;

@@ -13,13 +13,13 @@ public class DevilBulletMove : BulletMove
     }
     protected override void Limit()
     {
-        if(transform.localPosition.x < GameManager.Instance.MinPosition.x - 1f){
+        if(transform.localPosition.x < _gameManager.MinPosition.x - 1f){
             Despawn();
         }
     }
     public override void Despawn()
     {
-        transform.SetParent(GameManager.Instance.PoolManager.devilSkillPool.transform,false);
+        transform.SetParent(_gameManager.PoolManager.devilSkillPool.transform,false);
         gameObject.SetActive(false);
     }
 }

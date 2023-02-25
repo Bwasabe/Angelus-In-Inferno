@@ -45,15 +45,15 @@ public class BossPurpleMove : BulletMove
             rotationZ += 24f;
         }
         rotationZ = 24f;
-        transform.SetParent(GameManager.Instance.PoolManager.bossPurplePool.transform,false);
+        transform.SetParent(_gameManager.PoolManager.bossPurplePool.transform,false);
         gameObject.SetActive(false);
     }
     private void SpawnOrInstantiate()
     {
 
-        if (GameManager.Instance.PoolManager.enemyBullet.transform.childCount > 0)
+        if (_gameManager.PoolManager.enemyBullet.transform.childCount > 0)
         {
-            purpleBullet = GameManager.Instance.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
+            purpleBullet = _gameManager.PoolManager.enemyBullet.transform.GetChild(0).gameObject;
             purpleBullet.SetActive(true);
             //purpleBullet.transform.localScale = new Vector2(2,2);
             purpleBullet.transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
