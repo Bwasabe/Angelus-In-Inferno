@@ -10,6 +10,7 @@ public class ArrowMove : MonoBehaviour
 
     private GameManager _gameManager;
     void Start(){
+        _gameManager = FindObjectOfType<GameManager>();
         gameObject.SetActive(false);
     }
     void Update(){
